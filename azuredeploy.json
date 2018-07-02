@@ -32,7 +32,7 @@
     }
   },
   "variables": {
-    "_assetLocation": "https://raw.githubusercontent.com/bradyevans/Stratus/master/",
+    "_assetLocation": "https://raw.githubusercontent.com/HewlettPackard/HPE-PowerShell-for-Log-Analytics-Module/master/",
 
     "runbooks": {
       "generateHpeLogAnalyticsLogs": {
