@@ -4,30 +4,33 @@
   "parameters": {
     "omsLogAnalyticsWorkspaceName": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Create new or use an existing Log Analytic Workspace"
       }
     },
     "omsLogAnalyticsRegion": {
       "type": "string",
-      "defaultValue": "East US",
       "metadata": {
         "description": "Specify the Azure Region for your new or existing OMS workspace"
       }
     },
     "omsAutomationAccountName": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Use an existing Automation account or create a new"
       }
     },
     "omsAutomationRegion": {
       "type": "string",
-      "defaultValue": "East US",
       "metadata": {
         "description": "Specify the Azure Region for your OMS Automation Account"
+      }
+    },
+    "SolutionName": {
+      "type": "string",
+      "defaultValue": "HPE-OneView-for-Log-Analytics",
+      "metadata": {
+      "description": "Name of the solution"
       }
     }
   },
@@ -55,7 +58,7 @@
     "omsSolutions": {
       "customSolution": {
         "name": "HPE OneView for Microsoft Azure Log Analytics",
-        "solutionName": "[concat('HPE OneView for Log Analytics', '[', parameters('omsLogAnalyticsWorkspaceName'), ']')]",
+        "solutionName": "[concat(parameters('SolutionName'), '[' ,parameters('omsLogAnalyticsWorkspaceName'), ']')]",
         "publisher": "Hewlett Packard Enterprise",
         "displayName": "HPE OneView for Microsoft Log Analytics",
         "description": "Monitor HPE OneView managed assets in a hybrid IT environment.",
