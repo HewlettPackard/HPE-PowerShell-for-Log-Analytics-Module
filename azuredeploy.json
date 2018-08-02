@@ -72,7 +72,7 @@
       "type": "Microsoft.OperationalInsights/workspaces",
       "apiVersion": "2015-11-01-preview",
       "location": "[parameters('workspaceRegionId')]",
-      "properties": {},
+      "properties": {}, 
       "resources": [
         {
           "apiVersion": "2015-11-01-preview",
@@ -141,7 +141,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_OneViewAppliance_v1_CL | summarize AggregatedValue = dcount(applianceName_s) by overallApplianceStatus_s | sort by AggregatedValue desc// Oql: Type=HPEOneView_OneViewAppliance_v3_CL | measure countdistinct(applianceName_s) by overallApplianceStatus_s // Args: {OQ: True; WorkspaceId: d2811520-3313-4073-b6fb-c11cfa69faeb} // Settings: {PTT: True; SortM: True} // Version: 0.1.127",
+                    "Query": "let EmptyTable = datatable (applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize AggregatedValue = dcount(applianceName_s) by overallApplianceStatus_s | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -171,7 +171,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_OneViewAppliance_v1_CL | summarize AggregatedValue = dcount(applianceName_s) by applianceName_s, overallApplianceStatus_s, applianceLaunchURL_s// Oql: Type=HPEOneView_OneViewAppliance_v3_CL | measure countdistinct(applianceName_s) by applianceName_s,overallApplianceStatus_s,applianceLaunchURL_s // Args: {OQ: True; WorkspaceId: d2811520-3313-4073-b6fb-c11cfa69faeb} // Settings: {PTT: True; SortI: True} // Version: 0.1.127",
+                    "Query": "let EmptyTable = datatable (applianceLaunchURL_s:string, applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | project applianceName_s, overallApplianceStatus_s, applianceLaunchURL_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -217,17 +217,17 @@
                 "Version": 0,
                 "Configuration": {
                   "General": {
-                    "title": "HPE OneView Managed Systems",
+                    "title": "HPE OneView Server Hardware",
                     "newGroup": true,
                     "icon": "data:image/png;base64,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",
                     "useIcon": true
                   },
                   "Header": {
-                    "Title": "System Status",
+                    "Title": "Server Status",
                     "Subtitle": " "
                   },
                   "Donut": {
-                    "Query": "HPEOneView_ServerHardware_v1_CL  | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -257,7 +257,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s",
+                    "Query": "let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -313,7 +313,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -343,7 +343,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -399,7 +399,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_LogicalInterconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalInterconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -429,7 +429,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_LogicalInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -485,7 +485,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_Interconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Interconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -515,7 +515,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_Interconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Interconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -571,7 +571,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -601,7 +601,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -657,7 +657,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -687,9 +687,10 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
+                    "operation": "Summary",
                     "ColumnsTitle": {
                       "Name": "Name",
                       "Value": " "
@@ -742,7 +743,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -772,9 +773,10 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
+                    "operation": "Summary",
                     "ColumnsTitle": {
                       "Name": "Name",
                       "Value": " "
@@ -827,7 +829,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string,status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -857,9 +859,10 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string,status_s:string,name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
+                    "operation": "Summary",
                     "ColumnsTitle": {
                       "Name": "Name",
                       "Value": " "
@@ -912,7 +915,7 @@
                     "Subtitle": ""
                   },
                   "Donut": {
-                    "Query": "HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
+                    "Query": "let EmptyTable = datatable (uri_s:string,status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
                     "CenterLegend": {
                       "Text": "Total",
                       "Operation": "Sum",
@@ -942,9 +945,10 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
+                    "Query": "let EmptyTable = datatable (uri_s:string,status_s:string,name_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s",
                     "HideGraph": true,
                     "enableSparklines": false,
+                    "operation": "Summary",
                     "ColumnsTitle": {
                       "Name": "Name",
                       "Value": " "
@@ -998,7 +1002,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "HPEOneView_Alerts_v1_CL | project description_s, severity_s",
+                    "Query": "let EmptyTable = datatable (description_s:string,severity_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | project description_s, severity_s",
                     "HideGraph": false,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -1051,9 +1055,9 @@
                 },
                 "Advanced": {
                   "DataFlowVerification": {
-                    "Enabled": false,
-                    "Query": "search *// Oql: * // Args: {OQ: True; WorkspaceId: d2811520-3313-4073-b6fb-c11cfa69faeb} // Settings: {PTT: True; SortI: True} // Version: 0.1.127",
-                    "Message": ""
+                    "Enabled": true,
+                    "Query": "HPEOneView_OneViewAppliance_v1_CL ",
+                    "Message": "No HPE OneView Instances."
                   }
                 }
               }
