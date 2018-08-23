@@ -52,9 +52,9 @@ if([String]::IsNullOrEmpty($jsonConfigString)){
                     "OneViewCredVariable":"<HPE OneView automation credential>"},
 
                     {"LogAnalyticsWorkSpaceID":"d2811520-3313-4073-b6fb-xxxxxxxxxxxx",
-                    "LogAnalyticsPrimaryKeyVariable":"<automation variable PK blah blah>",
+                    "LogAnalyticsPrimaryKeyVariable":"<automation variable PK >",
                     "OneViewHostName":"<IP address of second HPE OV",
-                    "OneViewCredVariable":"OneViewAutomationCredential"}
+                    "OneViewCredVariable":"HPE OneView automation credential"}
 
                 ]' #>
 
