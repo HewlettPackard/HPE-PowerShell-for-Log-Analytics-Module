@@ -4,7 +4,7 @@
 .Synopsis
    This runbook is used to start a log recored generation cycle.
 .DESCRIPTION
-   Use this runbook to drive the HPELogAnalyticsPSModule to collect data from 
+   Use this runbook to drive HPELogAnalyticsPSModule to collect data from 
    one or more instances of HPE OneView and generate Azure Log Analytics log 
    records.  This script can be used to generate log records for multiple
    instance of HPE OneView.
@@ -18,48 +18,24 @@ param(
 $VerbosePreference = 'Continue'
 #$ErrorActionPreference = 'Stop'
 
+<#
+	If configuration string is not passed in, get configuration list stored in Automation Variable Ov4LaConfigList.
+	This variable stores the configuration created by running the Add-HpeLogAnalyticsConfig command in the 
+	HpeLogAnalyticsPSModule.
+#>
 if([String]::IsNullOrEmpty($jsonConfigString)){
 
-	<# 
-		jsonConfigString drives the collection of data from HPE OneView.  This array
-		contains entries that define the instance of HPE OneView to collect data from.
-		A particular entry also defines which Log Analytics workspace to target for the
-		associated HPE OneView instance.  Members of each entry are defined below:
-			* LogAnalyticsWorkSpaceID - The Log Analytics WorkSpace ID associated with
-				the instance of Log Analytics to target Log Record generation. This is 
-	            obtained from the OMS Workspace inside the Azure portal.
+	Write-Verbose "jsonConfigString not passed in.  Getting from automation variable: Ov4LaConfigList"
 
-			* LogAnalyticsPrimaryKeyVariable - The name of the encrypted automation variable 
-				which contains the primary key used to communicate with the instance of Log Analytics 
-				defined by LogAnalyticsWorkSpaceID.
+	$configList = Get-AutomationVariable -Name "Ov4LaConfigList" -ErrorAction 'Continue'
 
-			* OneViewHostName - The host name or IP address for the instance of HPE OneView 
-				to collect information from.  This information will in turn be used to generate 
-				Log Records in the instance of Log Analytics defined by LogAnalyticsWorkSpaceID
+	if(!$configList){
+		$ErrorMessage =  "Could not get Ov4LaConfigList.  Script cannot continue without configuration."
+		throw $ErrorMessage
+	}
 
-			* OneViewCredVariable - The name of the credential asset containing credentials needed 
-				to authenticate with the instance of HPE OneView defined by OneViewHostName.
-	#>
-
-	<# Uncomment the following $jsonConfigString variable definition and configure the JSON array entries
-	   to match your environment using the definitions above. #>
-	<# $jsonConfigString =
-                '[
-
-                    {"LogAnalyticsWorkSpaceID":"d2811520-3313-4073-b6fb-xxxxxxxxxxxx",
-                    "LogAnalyticsPrimaryKeyVariable":"<automation variable PK>",
-                    "OneViewHostName":"<IP address of first HPE OV>",
-                    "OneViewCredVariable":"<HPE OneView automation credential>"},
-
-                    {"LogAnalyticsWorkSpaceID":"d2811520-3313-4073-b6fb-xxxxxxxxxxxx",
-                    "LogAnalyticsPrimaryKeyVariable":"<automation variable PK >",
-                    "OneViewHostName":"<IP address of second HPE OV",
-                    "OneViewCredVariable":"HPE OneView automation credential"}
-
-                ]' #>
-
+	$jsonConfigString = $configList.ToString()
 }
-
 
 # Deserialize incoming JSON configuration data.
 try{
