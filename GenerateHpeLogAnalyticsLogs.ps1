@@ -52,13 +52,13 @@ catch{
 $configurationData | foreach {
 
     Write-Verbose "Processing config item -> "
-    Write-Verbose "Log Analytics workspace ID: $($_.LogAnalyticsWorkspaceID)"
+    Write-Verbose "Log Analytics workspace ID: $($_.LogAnalyticsWorkSpaceId)"
     Write-Verbose "HPE OneView appliance host name: $($_.OneViewHostName)"
 
     # get credential used to connect to instalce of HPE OneView appliance
-    $cred = Get-AutomationPSCredential -Name $_.OneViewCredVariable
+    $cred = Get-AutomationPSCredential -Name $_.OneViewCredVariableName
     if(-not $cred){
-        Write-Warning "Could not get credential: $($_.OneViewCredVariable)"
+        Write-Warning "Could not get credential: $($_.OneViewCredVariableName)"
         Continue;
     }
     else{
@@ -66,19 +66,19 @@ $configurationData | foreach {
     }
 	
     # get Log Analytics Workspace primary key
-    $logAnalyticsPrimaryKey = Get-AutomationVariable $_.LogAnalyticsPrimaryKeyVariable
+    $logAnalyticsPrimaryKey = Get-AutomationVariable $_.LogAnalyticsPkVariableName
     #if([String]::IsNullOrEmpty($omsPrimaryKey)){
     if( -not $logAnalyticsPrimaryKey){
-        Write-Warning "Could not get Log Analytics workspace primary key automation variable: $($_.LogAnalyticsPrimaryKeyVariable)"
+        Write-Warning "Could not get Log Analytics workspace primary key automation variable: $($_.LogAnalyticsPkVariableName)"
         Continue;
     }
     else{
-        Write-Verbose "Got Log Analytics primary key from automation variable: $($_.LogAnalyticsPrimaryKeyVariable)"
+        Write-Verbose "Got Log Analytics primary key from automation variable: $($_.LogAnalyticsPkVariableName)"
     }
 
 	try{
 		$success = Send-HPELogAnalyticsLogs `
-                    -LogAnalyticsWorkspaceID $_.LogAnalyticsWorkspaceID `
+                    -LogAnalyticsWorkspaceID $_.LogAnalyticsWorkSpaceId `
                     -LogAnalyticsPrimaryKey $logAnalyticsPrimaryKey `
                     -HPEOneViewHostName $_.OneViewHostName `
                     -HPEOneViewCredential $cred 
