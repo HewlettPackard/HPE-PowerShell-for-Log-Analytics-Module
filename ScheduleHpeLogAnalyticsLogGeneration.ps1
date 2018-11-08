@@ -29,7 +29,7 @@ $AutomationResourceGroup = "<Enter Resource Group Name>"
 $AutomationAccountName = "<Enter Automation Account Name>"
 $HybridRunbookWokerGroupName = "<Enter Hybrid Worker Group Name>"
 
-$RunbookName = "GenerateHpeLogAnalyticsLogs (v1.0.2)"      
+$RunbookName = "GenerateHpeLogAnalyticsLogs"      
 $ScheduleName = "GenerateHpeOmsLogsSchedule"
 
 $RunbookStartTime = $Date = $([DateTime]::Now.AddMinutes(10))
