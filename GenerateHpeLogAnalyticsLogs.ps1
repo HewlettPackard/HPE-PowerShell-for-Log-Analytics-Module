@@ -7,7 +7,7 @@
    Use this runbook to drive HPELogAnalyticsPSModule to collect data from 
    one or more instances of HPE OneView and generate Azure Log Analytics log 
    records.  This script can be used to generate log records for multiple
-   instance of HPE OneView.
+   instances of HPE OneView.
 #>
 
 param(
