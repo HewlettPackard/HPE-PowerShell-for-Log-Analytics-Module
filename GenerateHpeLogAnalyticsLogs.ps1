@@ -7,7 +7,7 @@
    Use this runbook to drive HPELogAnalyticsPSModule to collect data from 
    one or more instances of HPE OneView and generate Azure Log Analytics log 
    records.  This script can be used to generate log records for multiple
-   instance of HPE OneView in your on-premise environments.
+   instance of HPE OneView.
 #>
 
 param(
@@ -48,14 +48,56 @@ catch{
 
 	throw $ErrorMessage
 }
+<#
+	If azure configuration string is not passed in, get azure configuration list stored in Automation Variable Ov4LaAsConfigList.
+	This variable stores the configuration created by running the Add-HPELogAnalyticsAzureStackConfig command in the 
+	HpeLogAnalyticsPSModule.
+#>
+
+Write-Verbose "Getting value from azure automation variable: Ov4LaASConfigList"
+$azureConfigList = Get-AutomationVariable -Name "Ov4LaAsConfigList" -ErrorAction 'Continue'
+if($azureConfigList)
+{		
+    $jsonAzureConfigString = $azureConfigList.ToString() 
+}
+else 
+{
+    $jsonAzureConfigString = ""
+    Write-Verbose "Automation variable for azure is not found"      
+}
+   
+# Deserialize incoming JSON configuration data.
+try{
+	 $azureconfigurationData = ConvertFrom-Json -InputObject $jsonAzureConfigString     
+   }
+catch{ 
+  	$ErrorMessage = 'Could not convert JSON azure configuration string.'
+	$ErrorMessage += "`n"
+	$ErrorMessage += $_ 
+	throw $ErrorMessage
+}
 
 $configurationData | foreach {
+
+    Write-Verbose "Initialize variables for azure stack scale unit name and region"
+    $AzureStackScaleUnitName = ""
+    $AzureStackScaleUnitRegion = ""
 
     Write-Verbose "Processing config item -> "
     Write-Verbose "Log Analytics workspace ID: $($_.LogAnalyticsWorkSpaceId)"
     Write-Verbose "HPE OneView appliance host name: $($_.OneViewHostName)"
-
-    # get credential used to connect to instalce of HPE OneView appliance
+	
+    $applianceHostName =  $_.OneViewHostName
+     
+    #get azure stack scale unit name and region 
+    $azureconfigurationData | Where-Object { $applianceHostName -eq $_.OneViewHostName } | Foreach-Object { 
+		
+			Write-Verbose "Azure Stack OneView appliance host name: $($_.OneViewHostName)"
+			$AzureStackScaleUnitName = $_.AzureStackScaleUnitName
+			$AzureStackScaleUnitRegion = $_.AzureStackScaleUnitRegion
+    }
+     
+    # get credential used to connect to instance of HPE OneView appliance
     $cred = Get-AutomationPSCredential -Name $_.OneViewCredVariableName
     if(-not $cred){
         Write-Warning "Could not get credential: $($_.OneViewCredVariableName)"
@@ -81,9 +123,10 @@ $configurationData | foreach {
                     -LogAnalyticsWorkspaceID $_.LogAnalyticsWorkSpaceId `
                     -LogAnalyticsPrimaryKey $logAnalyticsPrimaryKey `
                     -HPEOneViewHostName $_.OneViewHostName `
-                    -HPEOneViewCredential $cred 
-					
-	}
+                    -HPEOneViewCredential $cred `
+                    -AzureStackScaleUnitName $AzureStackScaleUnitName `
+                    -AzureStackScaleUnitRegion $AzureStackScaleUnitRegion
+		}
 	catch{
 		$ErrorMessage = 'An exception was generated when calling Send-HPELogAnalyticsLogs. Check log file for details'
 		$ErrorMessage += "`n"
