@@ -1992,7 +1992,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_MemoryModule_v1_CL | summarize arg_max(TimeGenerated, *) by MemoryGuid_s |project ServerName_s,Status_Health_s",
+                    "Query": "let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_MemoryModule_v1_CL | summarize arg_max(TimeGenerated, *) by MemoryGuid_s |project ServerName_s,Status_Health_s,DeviceLocator_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -2078,7 +2078,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s |project ServerName_s,Status_Health_s",
+                    "Query": "let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s |project ServerName_s,Status_Health_s,Location_s",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
@@ -2164,7 +2164,7 @@
                     "NavigationSelect": {}
                   },
                   "List": {
-                    "Query": "let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |project ServerName_s,Status_Health_s",
+                    "Query": "let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |project ServerName_s,Status_Health_s,VolumeUniqueIdentifier_g",
                     "HideGraph": true,
                     "enableSparklines": false,
                     "operation": "Summary",
