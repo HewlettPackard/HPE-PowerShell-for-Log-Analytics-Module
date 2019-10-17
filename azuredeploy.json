@@ -197,6 +197,10 @@
       {
         "query": "HPEOneView_LogicalDrive_v1_CL| summarize TimeGenerated = arg_max(TimeGenerated,*) by VolumeUniqueIdentifier_g| where Status_Health_s != \"OK\"",
         "displayName": "All the Server Storage LogicalDrives with Issues"
+      },
+      {
+        "query": "let ServerName = [** Server Name **];let HPEOVServerHardware = HPEOneView_ServerHardware_v1_CL | where Computer == ServerName| summarize TimeGenerated = arg_max(TimeGenerated,*) by serialNumber_s | project Status=status_s,ComputerName=Computer, Type;let HPEOVStorageModule = HPEOneView_StorageModule_v1_CL| where ServerName_s == ServerName | summarize TimeGenerated = arg_max(TimeGenerated,*) by SerialNumber_s | project Status=Status_Health_s,Location=Location_s, Type;let HPEOVMemoryModule = HPEOneView_MemoryModule_v1_CL | where ServerName_s == ServerName | summarize TimeGenerated = arg_max(TimeGenerated,*) by MemoryGuid_s | project Location=DeviceLocator_s,Status=Status_Health_s,Type;let HPEOVStorageModulePhysicalDrive = HPEOneView_PhysicalDrive_v1_CL | where ServerName_s == ServerName  | summarize TimeGenerated = arg_max(TimeGenerated,*) by SerialNumber_s | project Location=Location_s,Status=Status_Health_s,Type,VolumeID=LogicalDriveUniqueID_g;let HPEOVStorageModuleLogicalDrive = HPEOneView_LogicalDrive_v1_CL | where ServerName_s == ServerName  | summarize TimeGenerated = arg_max(TimeGenerated,*) by VolumeUniqueIdentifier_g | project VolumeID=VolumeUniqueIdentifier_g,Status=Status_Health_s,Type;union HPEOVServerHardware, HPEOVStorageModule, HPEOVMemoryModule, HPEOVStorageModulePhysicalDrive, HPEOVStorageModuleLogicalDrive",
+        "displayName": "All the Server hardware with sub-components"
       }
     ]
   },
