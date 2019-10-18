@@ -2390,7 +2390,7 @@
         "containedResources": [
           "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutions').customSolution.name)]",
           "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('azureSolutions').customSolution.name)]",
-          "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutionsForSubComponents').customSolution.name)]",
+          "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutionsForSubComponents').customSolution.name)]"
         ]
       }
     }
