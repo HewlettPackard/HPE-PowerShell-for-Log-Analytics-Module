@@ -55,7 +55,7 @@ catch{
 #>
 
 Write-Verbose "Getting value from azure automation variable: Ov4LaASConfigList"
-$azureConfigList = Get-AutomationVariable -Name "Ov4LaAsConfigList" -ErrorAction 'Continue'
+$azureConfigList = Get-AutomationVariable -Name "Ov4LaAsConfigList" -ErrorAction 'SilentlyContinue'
 if($azureConfigList)
 {		
     $jsonAzureConfigString = $azureConfigList.ToString() 
