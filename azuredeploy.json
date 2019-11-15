@@ -35,7 +35,7 @@
     }
   },
   "variables": {
-    "_assetLocation": "https://raw.githubusercontent.com/HewlettPackard/HPE-PowerShell-for-Log-Analytics-Module/v1.1.0/",
+    "_assetLocation": "https://raw.githubusercontent.com/HewlettPackard/HPE-PowerShell-for-Log-Analytics-Module/v1.2.0/",
 
     "runbooks": {
       "generateHpeLogAnalyticsLogs": {
