@@ -262,734 +262,72 @@
       "properties": {},
       "resources": [
         {
-          "apiVersion": "2015-11-01-preview",
+          "apiVersion": "2018-06-01-preview",
           "name": "[variables('omsSolutions').customSolution.name]",
-          "type": "views",
-          "id": "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutions').customSolution.name)]",
+          "type": "microsoft.insights/workbooks",
+          "id": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookomsSolutionsId'))]",
           "dependson": [
             "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
           ],
-          "resources": [
-            {
-              "apiVersion": "2018-06-01-preview",
-              "name": "[variables('omsSolutions').customSolution.name]",
-              "type": "microsoft.insights/workbooks",
-              "id": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookomsSolutionsId'))]",
-              "dependson": [
-                "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'), '/views/', variables('omsSolutions').customSolution.name)]"
-              ],
-              "location": "[resourceGroup().location]",
-              "kind": "shared",
-              "properties": {
-                "Name": "[variables('omsSolutions').customSolution.name]",
-                "DisplayName": "[variables('omsSolutions').customSolution.displayName]",
-                "Author": "[variables('omsSolutions').customSolution.author]",
-                "id": "HPE OneView Workbook",
-                "version": "2",
-                "sourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "fallbackResourceIds": "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "category": "[parameters('workbookType')]",
-                "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"<div style=\\\"background-color:rgb(0,158,73);color:white;height:100px;border:SOLID 1px;\\\">\\r\\n\\t<h1 style=\\\"text-align:center;\\\">HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\r\\n\\t<a style=\\\"text-align:center;color:white;font-size: 12px;text-decoration: underline;\\\" href=\\\"https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html\\\" title=\\\"HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\\">More Info</a></h1>\\t\\r\\n</div>\\r\\n<hr>\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Hybrid IT Management</h2>\\r\\nProvides a bridge between Microsoft cloud management services and HPE hardware infrastructure.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Manage on-premises HPE infrastructure</h2>\\r\\nData is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Provide feedback</h2>\\r\\nTo provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at \\r\\n<a style=\\\"text-decoration: underline;\\\" href=\\\"www.hpe.com/info/ov4la-docs\\\" title=\\\"www.hpe.com/info/ov4la-docs\\\">www.hpe.com/info/ov4la-docs.</a>\"},\"name\":\"text - 0\",\"styleSettings\":{\"margin\":\"10px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW APPLIANCES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize AggregatedValue = dcount(applianceName_s) by overallApplianceStatus_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Appliance Status\",\"noDataMessage\":\"No OneView Appliance Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\",\"styleSettings\":{\"margin\":\"0px\",\"padding\":\"0px\",\"maxWidth\":\"100%\"}},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceLaunchURL_s:string, applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | project applianceName_s, overallApplianceStatus_s, applianceLaunchURL_s\",\"size\":1,\"noDataMessage\":\"No OneView Appliance Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW APPLIANCES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"maxWidth\":\"100%\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER HARDWARE\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Status\",\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW SERVER HARDWARE\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER PROFILES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Profile Status\",\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"name\":\"HPE ONEVIEW SERVER PROFILES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW ENCLOSURES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Enclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Enclosure Status\",\"noDataMessage\":\"No Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Enclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW ENCLOSURES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW LOGICAL INTERCONNECTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalInterconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Logical Interconnect Status\",\"noDataMessage\":\"No Logical Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Logical Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW LOGICAL INTERCONNECTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW INTERCONNECTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Interconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Interconnect Status\",\"noDataMessage\":\"No Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Interconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW INTERCONNECTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW STORAGE SYSTEMS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Storage System Status\",\"noDataMessage\":\"No Storage System Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Storage System Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW STORAGE SYSTEMS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW STORAGE POOLS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Storage Pool Status\",\"noDataMessage\":\"No Storage Pool Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Disabled\",\"color\":\"gray\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Storage Pool Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW STORAGE POOLS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW STORAGE VOLUMES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Storage Volume Status\",\"noDataMessage\":\"No Storage Volume Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Storage Volume Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW STORAGE VOLUMES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SAS INTERCONNECTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"SAS Interconnects Status\",\"noDataMessage\":\"No SAS Interconnects Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string,name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No SAS Interconnects Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW SAS INTERCONNECTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW DRIVE ENCLOSURES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Drive Enclosure Status\",\"noDataMessage\":\"No Drive Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string,name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Drive Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW DRIVE ENCLOSURES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"ALERTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated);union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | count\",\"size\":1,\"title\":\"Alerts\",\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":604800000},\"showRefreshButton\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\",\"tileSettings\":{\"showBorder\":false},\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string, description_s:string, applianceLaunchURL_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated); union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | project TimeGenerated, applianceName_s, description_s, applianceLaunchURL_s\",\"size\":1,\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"ALERTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}}],\"isLocked\":false}"
-              }
-            }
-          ],
+          "location": "[resourceGroup().location]",
+          "kind": "shared",
           "properties": {
             "Name": "[variables('omsSolutions').customSolution.name]",
             "DisplayName": "[variables('omsSolutions').customSolution.displayName]",
-            "Description": "[variables('omsSolutions').customSolution.description]",
             "Author": "[variables('omsSolutions').customSolution.author]",
-            "Source": "Local",
-            "Id": "HPE OneView",
-            "Version": 2,
-            "Filters": [],
-            "OverviewTile": {
-              "Id": "SingleQueryDonutBuilderTileV1",
-              "Type": "OverviewTile",
-              "Version": 2,
-              "Configuration": {
-                "Donut": {
-                  "Query": "let EmptyTable = datatable (applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize AggregatedValue = dcount(applianceName_s) by overallApplianceStatus_s | sort by AggregatedValue desc",
-                  "CenterLegend": {
-                    "Text": "Total",
-                    "Operation": "Sum",
-                    "ArcsToSelect": []
-                  },
-                  "Options": {
-                    "colors": [
-                      "#00188f",
-                      "#0072c6",
-                      "#00bcf2"
-                    ],
-                    "valueColorMapping": [
-                      {
-                        "value": "OK",
-                        "color": "#55d455"
-                      },
-                      {
-                        "value": "Warning",
-                        "color": "#fcd116"
-                      },
-                      {
-                        "value": "Critical",
-                        "color": "#ba141a"
-                      }
-                    ]
-                  },
-                  "NavigationSelect": {}
-                },
-                "Advanced": {
-                  "DataFlowVerification": {
-                    "Enabled": true,
-                    "Query": "HPEOneView_OneViewAppliance_v1_CL ",
-                    "Message": "No HPE OneView Instances."
-                  }
-                }
-              }
-            }
+            "id": "HPE OneView Workbook",
+            "version": "2",
+            "sourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+            "fallbackResourceIds": "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+            "category": "[parameters('workbookType')]",
+            "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"<div style=\\\"background-color:rgb(0,158,73);color:white;height:80px;border:SOLID 1px;\\\">\\r\\n\\t<h1 style=\\\"text-align:center;\\\">HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\r\\n\\t<a style=\\\"text-align:center;color:white;font-size: 12px;text-decoration: underline;\\\" href=\\\"https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html\\\" title=\\\"HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\\">More Info</a></h1>\\t\\r\\n</div>\\r\\n<hr>\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Hybrid IT Management</h2>\\r\\nProvides a bridge between Microsoft cloud management services and HPE hardware infrastructure.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Manage on-premises HPE infrastructure</h2>\\r\\nData is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Provide feedback</h2>\\r\\nTo provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at \\r\\n<a style=\\\"text-decoration: underline;\\\" href=\\\"www.hpe.com/info/ov4la-docs\\\" title=\\\"www.hpe.com/info/ov4la-docs\\\">www.hpe.com/info/ov4la-docs.</a>\"},\"name\":\"text - 0\",\"styleSettings\":{\"margin\":\"10px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW APPLIANCES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize AggregatedValue = dcount(applianceName_s) by overallApplianceStatus_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Appliance Status\",\"noDataMessage\":\"No OneView Appliance Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\",\"styleSettings\":{\"margin\":\"0px\",\"padding\":\"0px\",\"maxWidth\":\"100%\"}},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceLaunchURL_s:string, applianceName_s:string,overallApplianceStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_OneViewAppliance_v1_CL | summarize arg_max(TimeGenerated, *) by applianceName_s | project applianceName_s, overallApplianceStatus_s, applianceLaunchURL_s\",\"size\":1,\"noDataMessage\":\"No OneView Appliance Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW APPLIANCES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"maxWidth\":\"100%\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER HARDWARE\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Status\",\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW SERVER HARDWARE\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER PROFILES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Profile Status\",\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"name\":\"HPE ONEVIEW SERVER PROFILES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW ENCLOSURES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Enclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Enclosure Status\",\"noDataMessage\":\"No Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Enclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW ENCLOSURES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW LOGICAL INTERCONNECTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalInterconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Logical Interconnect Status\",\"noDataMessage\":\"No Logical Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Logical Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW LOGICAL INTERCONNECTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW INTERCONNECTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Interconnects_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Interconnect Status\",\"noDataMessage\":\"No Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_Interconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Interconnect Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW INTERCONNECTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW STORAGE SYSTEMS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Storage System Status\",\"noDataMessage\":\"No Storage System Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageSystems_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Storage System Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW STORAGE SYSTEMS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW STORAGE POOLS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Storage Pool Status\",\"noDataMessage\":\"No Storage Pool Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Disabled\",\"color\":\"gray\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StoragePools_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Storage Pool Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW STORAGE POOLS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW STORAGE VOLUMES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Storage Volume Status\",\"noDataMessage\":\"No Storage Volume Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_StorageVolumes_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Storage Volume Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW STORAGE VOLUMES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SAS INTERCONNECTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"SAS Interconnects Status\",\"noDataMessage\":\"No SAS Interconnects Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string,name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_SASInterconnects_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No SAS Interconnects Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW SAS INTERCONNECTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW DRIVE ENCLOSURES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Drive Enclosure Status\",\"noDataMessage\":\"No Drive Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string,status_s:string,name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_DriveEnclosures_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Drive Enclosure Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW DRIVE ENCLOSURES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"ALERTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated);union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | count\",\"size\":1,\"title\":\"Alerts\",\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":604800000},\"showRefreshButton\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\",\"tileSettings\":{\"showBorder\":false},\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string, description_s:string, applianceLaunchURL_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated); union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | project TimeGenerated, applianceName_s, description_s, applianceLaunchURL_s\",\"size\":1,\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"ALERTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}}],\"isLocked\":false}"
           }
+
         },
         {
-          "apiVersion": "2015-11-01-preview",
+          "apiVersion": "2018-06-01-preview",
           "name": "[variables('azureSolutions').customSolution.name]",
-          "type": "views",
-          "id": "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('azureSolutions').customSolution.name)]",
+          "type": "microsoft.insights/workbooks",
+          "id": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookazureSolutionsId'))]",
           "dependson": [
             "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
           ],
-          "resources": [
-            {
-              "apiVersion": "2018-06-01-preview",
-              "name": "[variables('azureSolutions').customSolution.name]",
-              "type": "microsoft.insights/workbooks",
-              "id": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookazureSolutionsId'))]",
-              "dependson": [
-                "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'), '/views/', variables('azureSolutions').customSolution.name)]"
-              ],
-              "location": "[resourceGroup().location]",
-              "kind": "shared",
-              "properties": {
-                "Name": "[variables('azureSolutions').customSolution.name]",
-                "DisplayName": "[variables('azureSolutions').customSolution.displayName]",
-                "Author": "[variables('azureSolutions').customSolution.author]",
-                "id": "HPE OneView Azure Hub Workbook",
-                "version": "2",
-                "sourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "fallbackResourceIds": "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "category": "[parameters('workbookType')]",
-                "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"<div style=\\\"background-color:rgb(0,158,73);color:white;height:100px;border:SOLID 1px;\\\">\\r\\n\\t<h1 style=\\\"text-align:center;\\\">HPE OneView for Log Analytics v2.0.0 - Azure Stack Hub\\r\\n\\t<a style=\\\"text-align:center;color:white;font-size: 12px;text-decoration: underline;\\\" href=\\\"https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html\\\" title=\\\"HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\\">More Info</a></h1>\\t\\r\\n</div>\\r\\n<hr>\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Hybrid IT Management</h2>\\r\\nProvides a bridge between Microsoft cloud management services and HPE hardware infrastructure.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Manage on-premises HPE infrastructure</h2>\\r\\nData is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Provide feedback</h2>\\r\\nTo provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at \\r\\n<a style=\\\"text-decoration: underline;\\\" href=\\\"www.hpe.com/info/ov4la-docs\\\" title=\\\"www.hpe.com/info/ov4la-docs\\\">www.hpe.com/info/ov4la-docs.</a>\"},\"name\":\"text - 0\",\"styleSettings\":{\"margin\":\"10px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"AZURE STACK HUBS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (AzureStackApplianceName_s:string,AzureStackHubOverallHardwareStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_AzureStackHub_v1_CL | summarize arg_max(TimeGenerated, *) by AzureStackApplianceName_s | summarize AggregatedValue = dcount(AzureStackApplianceName_s) by AzureStackHubOverallHardwareStatus_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Azure Stack Hub Status\",\"noDataMessage\":\"No Azure Stack Hub Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\",\"styleSettings\":{\"margin\":\"0px\",\"padding\":\"0px\",\"maxWidth\":\"100%\"}},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (AzureStackApplianceName_s:string,AzureStackHubOverallHardwareStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_AzureStackHub_v1_CL | summarize arg_max(TimeGenerated, *) by AzureStackApplianceName_s | project AzureStackApplianceName_s, AzureStackHubOverallHardwareStatus_s\",\"size\":1,\"noDataMessage\":\"No Azure Stack Hub Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"AZURE STACK HUBS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"maxWidth\":\"100%\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"AZURE STACK NODES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | where partOfAzureStackInstance_s == true | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Azure Stack Node Status\",\"noDataMessage\":\"No Azure Stack Node Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | where partOfAzureStackInstance_s == true | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Azure Stack Node Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"AZURE STACK NODES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"AZURE STACK NODE SERVER PROFILES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | where partOfAzureStackInstance_s == true  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Profile Status\",\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | where partOfAzureStackInstance_s == true | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"name\":\"AZURE STACK NODE SERVER PROFILES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"ALERTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated);union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | count\",\"size\":1,\"title\":\"Alerts\",\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":604800000},\"showRefreshButton\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\",\"tileSettings\":{\"showBorder\":false},\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string, description_s:string, applianceLaunchURL_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated); union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | project TimeGenerated, applianceName_s, description_s, applianceLaunchURL_s\",\"size\":1,\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":2000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"ALERTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}}],\"isLocked\":false}"
-              }
-            }
-          ],
+          "location": "[resourceGroup().location]",
+          "kind": "shared",
           "properties": {
             "Name": "[variables('azureSolutions').customSolution.name]",
             "DisplayName": "[variables('azureSolutions').customSolution.displayName]",
-            "Description": "[variables('azureSolutions').customSolution.description]",
             "Author": "[variables('azureSolutions').customSolution.author]",
-            "Source": "Local",
-            "Id": "HPE Azure",
-            "Version": 2,
-            "Filters": [],
-            "OverviewTile": {
-              "Id": "SingleQueryDonutBuilderTileV1",
-              "Type": "OverviewTile",
-              "Version": 2,
-              "Configuration": {
-                "Donut": {
-                  "Query": "let EmptyTable = datatable (AzureStackApplianceName_s:string,AzureStackHubOverallHardwareStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_AzureStackHub_v1_CL | summarize arg_max(TimeGenerated, *) by AzureStackApplianceName_s | summarize AggregatedValue = dcount(AzureStackApplianceName_s) by AzureStackHubOverallHardwareStatus_s  | sort by AggregatedValue desc",
-                  "CenterLegend": {
-                    "Text": "Total",
-                    "Operation": "Sum",
-                    "ArcsToSelect": []
-                  },
-                  "Options": {
-                    "colors": [
-                      "#00188f",
-                      "#0072c6",
-                      "#00bcf2"
-                    ],
-                    "valueColorMapping": [
-                      {
-                        "value": "OK",
-                        "color": "#55d455"
-                      },
-                      {
-                        "value": "Warning",
-                        "color": "#fcd116"
-                      },
-                      {
-                        "value": "Critical",
-                        "color": "#ba141a"
-                      }
-                    ]
-                  },
-                  "NavigationSelect": {}
-                },
-                "Advanced": {
-                  "DataFlowVerification": {
-                    "Enabled": true,
-                    "Query": "HPEOneView_AzureStackHub_v1_CL",
-                    "Message": "No Azure stack hub instances."
-                  }
-                }
-              }
-            }
+            "id": "HPE OneView Azure Hub Workbook",
+            "version": "2",
+            "sourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+            "fallbackResourceIds": "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+            "category": "[parameters('workbookType')]",
+            "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"<div style=\\\"background-color:rgb(0,158,73);color:white;height:80px;border:SOLID 1px;\\\">\\r\\n\\t<h1 style=\\\"text-align:center;\\\">HPE OneView for Log Analytics v2.0.0 - Azure Stack Hub\\r\\n\\t<a style=\\\"text-align:center;color:white;font-size: 12px;text-decoration: underline;\\\" href=\\\"https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html\\\" title=\\\"HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\\">More Info</a></h1>\\t\\r\\n</div>\\r\\n<hr>\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Hybrid IT Management</h2>\\r\\nProvides a bridge between Microsoft cloud management services and HPE hardware infrastructure.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Manage on-premises HPE infrastructure</h2>\\r\\nData is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Provide feedback</h2>\\r\\nTo provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at \\r\\n<a style=\\\"text-decoration: underline;\\\" href=\\\"www.hpe.com/info/ov4la-docs\\\" title=\\\"www.hpe.com/info/ov4la-docs\\\">www.hpe.com/info/ov4la-docs.</a>\"},\"name\":\"text - 0\",\"styleSettings\":{\"margin\":\"10px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"AZURE STACK HUBS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (AzureStackApplianceName_s:string,AzureStackHubOverallHardwareStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_AzureStackHub_v1_CL | summarize arg_max(TimeGenerated, *) by AzureStackApplianceName_s | summarize AggregatedValue = dcount(AzureStackApplianceName_s) by AzureStackHubOverallHardwareStatus_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Azure Stack Hub Status\",\"noDataMessage\":\"No Azure Stack Hub Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\",\"styleSettings\":{\"margin\":\"0px\",\"padding\":\"0px\",\"maxWidth\":\"100%\"}},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (AzureStackApplianceName_s:string,AzureStackHubOverallHardwareStatus_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_AzureStackHub_v1_CL | summarize arg_max(TimeGenerated, *) by AzureStackApplianceName_s | project AzureStackApplianceName_s, AzureStackHubOverallHardwareStatus_s\",\"size\":1,\"noDataMessage\":\"No Azure Stack Hub Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"AZURE STACK HUBS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"maxWidth\":\"100%\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"AZURE STACK NODES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | where partOfAzureStackInstance_s == true | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Azure Stack Node Status\",\"noDataMessage\":\"No Azure Stack Node Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | where partOfAzureStackInstance_s == true | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Azure Stack Node Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"AZURE STACK NODES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"AZURE STACK NODE SERVER PROFILES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | where partOfAzureStackInstance_s == true  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Profile Status\",\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | where partOfAzureStackInstance_s == true | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"name\":\"AZURE STACK NODE SERVER PROFILES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"ALERTS\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated);union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | count\",\"size\":1,\"title\":\"Alerts\",\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":604800000},\"showRefreshButton\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\",\"tileSettings\":{\"showBorder\":false},\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (applianceName_s:string, description_s:string, applianceLaunchURL_s:string)[];let lastTimeGenerated = toscalar (union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | summarize arg_max(TimeGenerated, *) by applianceName_s | summarize makeset(TimeGenerated) | project set_TimeGenerated); union isfuzzy=true EmptyTable,HPEOneView_Alerts_v1_CL | where partOfAzureStackInstance_s == true | where TimeGenerated > ago(7d) | where TimeGenerated in (lastTimeGenerated) | project TimeGenerated, applianceName_s, description_s, applianceLaunchURL_s\",\"size\":1,\"noDataMessage\":\"No Alerts Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":2000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"ALERTS\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}}],\"isLocked\":false}"
           }
         },
         {
-          "apiVersion": "2015-11-01-preview",
+          "apiVersion": "2018-06-01-preview",
           "name": "[variables('omsSolutionsForSubComponents').customSolution.name]",
-          "type": "views",
-          "id": "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutionsForSubComponents').customSolution.name)]",
+          "type": "microsoft.insights/workbooks",
+          "id": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookomsSolutionsForSubComponentsId'))]",
           "dependson": [
             "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
           ],
-          "resources": [
-            {
-              "apiVersion": "2018-06-01-preview",
-              "name": "[variables('omsSolutionsForSubComponents').customSolution.name]",
-              "type": "microsoft.insights/workbooks",
-              "id": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookomsSolutionsForSubComponentsId'))]",
-              "dependson": [
-                "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'), '/views/', variables('omsSolutionsForSubComponents').customSolution.name)]"
-              ],
-              "location": "[resourceGroup().location]",
-              "kind": "shared",
-              "properties": {
-                "Name": "[variables('omsSolutionsForSubComponents').customSolution.name]",
-                "DisplayName": "[variables('omsSolutionsForSubComponents').customSolution.displayName]",
-                "Author": "[variables('omsSolutionsForSubComponents').customSolution.author]",
-                "id": "HPE OneView Sub Components Workbook",
-                "version": "2",
-                "sourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "fallbackResourceIds": "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-                "category": "[parameters('workbookType')]",
-                "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"<div style=\\\"background-color:rgb(0,158,73);color:white;height:100px;border:SOLID 1px;\\\">\\r\\n\\t<h1 style=\\\"text-align:center;\\\">HPE OneView for Log Analytics v2.0.0 - Server Hardware\\r\\n\\t<a style=\\\"text-align:center;color:white;font-size: 12px;text-decoration: underline;\\\" href=\\\"https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html\\\" title=\\\"HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\\">More Info</a></h1>\\t\\r\\n</div>\\r\\n<hr>\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Hybrid IT Management</h2>\\r\\nProvides a bridge between Microsoft cloud management services and HPE hardware infrastructure.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Manage on-premises HPE infrastructure</h2>\\r\\nData is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Provide feedback</h2>\\r\\nTo provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at \\r\\n<a style=\\\"text-decoration: underline;\\\" href=\\\"www.hpe.com/info/ov4la-docs\\\" title=\\\"www.hpe.com/info/ov4la-docs\\\">www.hpe.com/info/ov4la-docs.</a>\"},\"name\":\"text - 0\",\"styleSettings\":{\"margin\":\"10px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER HARDWARE\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Status\",\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW SERVER HARDWARE\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER PROFILES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Profile Status\",\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"name\":\"HPE ONEVIEW SERVER PROFILES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"MEMORY MODULE\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable, HPEOneView_MemoryModule_v1_CL|summarize arg_max(TimeGenerated, *) by MemoryGuid_s |summarize AggregatedValue = dcount(MemoryGuid_s) by Status_Health_s |sort by AggregatedValue desc\",\"size\":1,\"title\":\"Module Status\",\"noDataMessage\":\"No Memory Module Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_MemoryModule_v1_CL | summarize arg_max(TimeGenerated, *) by MemoryGuid_s |project ServerName_s,Status_Health_s,DeviceLocator_s\",\"size\":1,\"noDataMessage\":\"No Memory Module Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"MEMORY MODULE\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"PHYSICAL DRIVES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s | summarize AggregatedValue = dcount(SerialNumber_s) by Status_Health_s |sort by AggregatedValue desc\",\"size\":1,\"title\":\"Drive Status\",\"noDataMessage\":\"No Physical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s |project ServerName_s,Status_Health_s,Location_s\",\"size\":1,\"noDataMessage\":\"No Physical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"PHYSICAL DRIVES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"LOGICAL DRIVES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable, HPEOneView_LogicalDrive_v1_CL|summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |summarize AggregatedValue = dcount(VolumeUniqueIdentifier_g) by Status_Health_s |sort by AggregatedValue desc\",\"size\":1,\"title\":\"Drive Status\",\"noDataMessage\":\"No Logical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |project ServerName_s,Status_Health_s,VolumeUniqueIdentifier_g\",\"size\":1,\"noDataMessage\":\"No Logical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"LOGICAL DRIVES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}}],\"isLocked\":false}"
-              }
-            }
-          ],
+          "location": "[resourceGroup().location]",
+          "kind": "shared",
           "properties": {
             "Name": "[variables('omsSolutionsForSubComponents').customSolution.name]",
             "DisplayName": "[variables('omsSolutionsForSubComponents').customSolution.displayName]",
-            "Description": "[variables('omsSolutionsForSubComponents').customSolution.description]",
             "Author": "[variables('omsSolutionsForSubComponents').customSolution.author]",
-            "Source": "Local",
-            "Id": "HPE OneView",
-            "Version": 2,
-            "Dashboard": [
-              {
-                "Id": "InformationBlade",
-                "Type": "Blade",
-                "Version": 0,
-                "Configuration": {
-                  "General": {
-                    "Title": "",
-                    "NewGroup": false,
-                    "Color": "#009e49"
-                  },
-                  "Header": {
-                    "Image": "data:image/png;base64,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/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAANjpJREFUeNrs3XlcFdX/P/DXBUEEARE0JUUBQRESl9z3BTFNXDMzc0v7aGqbZtliH82sT7lWblmaWVoqbqlpbmiK+y7KoiAqKsouiyz3nt8ffeEn3rkzcy/3IuDr+XjwB3PnnJk5d+68Z845c45GCCFARERUBlmxCIiIiEGKiIiIQYqIiBikiIiIGKSIiIhBioiIiEGKiIiIQYqIiBikiIiIGKSIiIhBioiIiEGKiIiIQYqIiBikiIiIGKSIiIhBioiIiEGKiIiIQYqIiBikiIiIGKSIiIhBioiIiEGKiIiIQYqIiMqDSqYkmnYlDGfTE1l6JGl2o45oXc2dBUFETyZIbbkbjZisVJYeSRqb3YRBiojMwqTqPo8qTiw5MqhqJVsWAhE9uSBFRETEIEVERAxSREREDFJEREQMUkREVBFUskSmzpUqo4lTDZZuBZRekIsLGfdZEERUfoNUaxd37G49hKVbAV3IuI/AQytZEERUKixS3VcgdCzZCupBQS4LgYjKd5DSCcGSraDyeQNCROU9SBERETFIERERgxQRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBERMUgRERExSBERETFIERERg5SkylbWLNkKqoatPQuBiEpNJUtkml6Qi7jsdAhwGvmKdUejwfmMeywIIirfQepY6m147V/G0iUiohLeHBMRETFIERERMUgRERGDFBEREYMUERExSKnHjuVERFRmg9TNnAyWHBmUWZDHQiAiszDpPamv/LogPjsdVhoNS5CK0QmBVtXcWRBEZBYaIQRr74iIqExixwkiImKQIiIiYpAiIiIGKSIiIgYpIiJikCIiImKQIiIiYpAiIiIGKSIiIgYpIiJikCIiImKQIiIiYpAiIiIGKSIiIgYpIiJikCIiImKQIiIiYpAiIiIGKSIiIgYpIiJikCIiImKQIiIiYpAiIqJyoZIpiTIzM5GdnQ0bGxu9z/Lz82Fvb4+qVauatEM6nQ4ZGRnQarWwstKPoXl5eXB2doadnR2/PTOWq1arRbVq1VCpUiUWlpnl5eUhLS1N8veiRKPRwMbGBg4ODixICbm5uUhPT5cs24KCAlSuXBlOTk4sKAvLyclBRkYGbG1tzR4TTLoiDRs2DH///bfkDuXl5aF79+7YsWOHSTt09+5d+Pv7Iy8vD9bW1pIn5TfffIO33nqLZ4YRkpKS0LhxY+Tk5OiVqxACWq0We/fuRbt27VhYZhYaGorRo0dL/l7kCCGg0WhQuXJluLm5oXbt2mjSpAk6dOiAnj178uILYM2aNZg4cSIqV64seXEMDAzEsWPHeBJa2Lx58zBr1izJh4e8vDz07NkT27ZtK70gdefOHeTm5iI3N9fg56bSarVIS0uTXSc9PZ1nhQnlmpycLLvOw4cPWVAWkJmZKft7UfLgwQMkJSUhMjISBw4cwKJFi1C9enW8/PLLmDJlCry9vZ/asn3w4AHy8vKQl5cn+XlCQgJPwFKQmpqK/Px85Ofnmz0mmNQm5ezsXKLPZXfIykryCepRVapU4VlhQrkq3cmbUh1FyqTu8ksqJSUFS5cuha+vL7788suntmyVqv2rVavGE7AU2NvbWywmsAGCyoXz58/j5MmTkjcwWq0WtWvXRp8+fVTldfDgQcTExBjMq3HjxuWm2lOn0+Gjjz7CmTNnsGHDBp4oVOEwSFG5sHr1aixYsMDg53Xq1MHNmzdV5TVr1izs37/f4OchISHYunVruSqfjRs3YsiQIVi/fj1PFqpQ2AWdygUXFxfZz5999lnVedWsWbNEn5dVGzZswLJly3iyEIMUUWnTaDTyJ7KV+lNZaV2lbZVlEyZMwIMHD3jCUIXB6j6iMmDVqlVo0KCB3vKsrCxERkbir7/+wu7du1XltWjRInzyyScsVGKQIiLz6N+/v8GeaMHBwXj77bexe/duDBo0CFlZWYoBj0GKKgpW91H5OFHNWEWnlJcxVYfmEh8fr7hOcHAwDh06pLhebGwsrl27xpOG+CRVHmVnZyMiIgK3b99GRkYG7Ozs4OzsDB8fH3h6eqrKo3AkANKXkJCAyMhIpKSk4OHDh3BycoKbmxsaNWoEV1dXk/N1dHSU/dyYd7yU3q0py+/hNW/eHMOHD8evv/4qu97JkydVveSbmJiIuLg43L9/HxkZGUVl7ezsjAYNGhjVIcUUd+/eRXR0NFJSUpCZmQlbW1s4OTnB09MTPj4+T+SGoSSysrIQHx+PmzdvIj09Hbm5uahSpQocHR3h4eEBT0/PUh/SLSUlBQBQvXp1o9OeO3cO169fx4MHD2Bvbw83Nzf4+fmVaueipyZIrV27FqGhoTh48KDBkRcaNmyI4OBgjB49Gk2bNjWYV2ZmJl566SUIIfTetdHpdNBoNFi+fDk8PDwM5pGbm4uhQ4ciKyur2Hh5ubm5aNasGebOnSt7PBcvXsTUqVNhZWWlFzAfPnyIoKAgTJ8+vdQC0+rVq7Fp0yacO3cOWq1W8sLfqlUrDBw4ECNHjlR8ue/TTz9FeHg4KleuDGtra0RHR8uuf/78+aL3pIQQBp+2NBoNzp49K5tXaGgoYmJioNPpin0v7dq1w+eff/7Ez+XXXntNMUhdv35dcnl6ejr+/PNP7Nu3D6dOnUJ0dLTB0RqsrKzg6+uLdu3aYdCgQejdu7dZ9v/8+fNYt24ddu/ejYiICIOjFNStWxedOnXCkCFDEBISYpGyzMzMxGuvvYbMzEyDNzrx8fGYMWMGXn75ZcnPjx49ip07d+Kff/7BhQsXkJqaanB7NWvWROvWrdGrVy8MGTIEbm5uqvf1rbfewuXLl/VeyhdCQKfTYeHChfDz8wMAREVFYcGCBQgLC8ONGzcAAJ6enpg8eTLGjx8vu51r165h0aJF2LZtm+QTvq2tLdq1a4fhw4fj9ddfB/DvOIkWI0zQvXt3AcDgX5cuXYSpbt26JaytrWXz/+abb1Tnt23bNhEQECCbn9Tf2LFjRU5OjmSeBQUFwtHRUTb9woULZfdr//79sunT0tJk07///vuy6T/99NNi69+9e1fY2trKpjl06JDR39enn34q7OzsjCpbNzc3sXz5ctl8GzdubPR3Zum/xo0bm3ROr169WjHvc+fOqc4vJiZGMb8PPvigWJrY2FgxadIk4eLiYvLxt2zZUvz1118m/7YvXrwo+vfvb9K227dvLyIiIvTyXLJkiWy6gIAA2X3q0KGD4ratrKxEXFxcsXQPHz4Uy5YtE4GBgSaXp5OTk5gxY4bq8qtevbpsfkeOHBFCCLFixQqD6wQHB8tu44svvhAajUb1MQQGBoq0tDSxdu1a2fW6d+9u8nlToYPUu+++W6KLkpeXl4iPj5fMe86cObJpe/fuLbtvH3/8sWz6zZs3y6Zv2rSpbPr79+9bNEglJCSI5s2bl6h8R48ebTD/4ODgMheklH7gpRWk4uPjFfObOnVqsTQjR440Wzl89NFHRpfB/PnzS7zdWbNmmTVIffLJJ4rbrFSpkrhz545e2vDwcLOVZ4sWLfR+r1KUfm9arVYcO3bM5N/c4MGDTdp/b29vERISYrEgZZEKX1OHZAf+fSnTHO09r776quwIBWrExsbi+eefl3zvpH///rJpw8LCDFajAMDevXtl08t9fvfuXZw7d87g5+3btzeqGsFYt2/fRtOmTXHmzJkS5bNq1aqi6gJST2kAZql2N3OOyzhnzhx8+OGHqtd/88038d5775V4uyUZ/+1xBw4cwOzZsxXX27lzJ2rVqqW3XKpK21SnT5/G888/b/IAxMC/YxTu3LlT9dBgjxs2bBg2btxoUtpr166ZPML5E2uTunjxImbMmAGdTlesXl9xZypVQlpamlFppEydOhVr1641y7Hcv38fffv2RVhYWLHlfn5+8PLyQmxsrGS67OxsHDx4EEFBQXqfpaam4sSJE7Lb3bNnj8HPdu3aJZtWKYCWhE6nQ9u2bXH//n2z5Ldy5Up0794dw4YNY/RR6ciRI4rrPPPMMxYLUgDwv//9Dz179kS3bt1k15syZQqWLl1qlm2aq7NSRkaGqva12bNnS/5+ASgOgm2s+Ph4DBkyxOThuKytrTFmzBjFmQ6kLF++HOvWrSu7J7wlqvss/SdX3RcWFmaRbW7btk1vW++9955smilTpkju46ZNm1Rt8/r165LpX375Zdl0MTExemnMVd336quvmr1sK1euLHJzc4ttp2XLlmWuuq9ly5ZlorrPy8tLMb+9e/cWSzNhwgSzl4eHh4fsfm7ZssWs2/v222/NUt3Xpk0bxW2FhITIHps5q/se/Tt27JjJ1X2mVLGnpKSUym+nJNV9Fa5336uvvir7ua2tLd577z306tULtWvXRlZWFs6fP4/vvvtOtvpq2rRp6Nu3b7FlAwYMwPz582WfeKR66e3bt0/VsezZswdjx459/KYCf//9t8E0jRo1khy5wFzVEr/99pvsOs2bN8eECRPQtGlTODs74/79+9i1axe+/PJLgz2AcnNzsWTJErzzzjtFy3x9fXH9+nXY2trC2toaaWlpRV2kDX2vhd1ilXr3JScnIzs722BeDg4OcHV1hU6nK8orLy8Pvr6+Fjtv1T7pjBkzxuDT+6M1Em3atJG989doNGjevDl8fX1Rr1492NnZQavVIiEhARERETh+/Ljivty4cQNhYWHo0qWL3md5eXlGPR07OjqiWbNmcHV1RV5eHm7evIkLFy4UW8cc3dGnT5+uOAlivXr1FJ9opPbF09MT/v7+8Pb2LhprMi0tDVevXsWxY8eQlJSkuH9z584t1dHsZ8yYYdT6Hh4ecHBwQEJCguzvkU9SBp6k/vjjD8VeZVJPGYU6deokm/7ChQt6aVxdXWXT3LhxQy9Nw4YNVR3n0KFD9dIeOXJENs2HH34oeWzmeJLq3LmzbPphw4YZTHvhwgVRuXJlg2kbNmxYbH2tVitycnJEQUGB0Ol0YubMmbLbbtOmjdBqtaKgoED2T6vVildeeUWxZ6dOpyuWLicnR2i1Wos9SSUkJBhMn5OTI7Zv365Y/pDptBMUFCQAiK5du4qffvrJ4FP6oz3xunXrprityZMnG+wlpmZf69WrJ3788UeRnJysl0dcXJxYvHixaNSokQAgPvvssxI9Se3evVvVPsXGxip+p3/99ZcAINzd3cX06dPF6dOnZdd/8OCBqjJxcnIS+fn5ZnmS8vX1Fd27dxfdunUrevoOCgoqyi87O1vY2NioyuvTTz8VkZGRQqfTCSGESEtLE5s2bRLt2rWz+JNUhQpSrVq1MvlRWggh7t27J9v9cubMmXpplHpNrVixotj6N27cUH2cNWrUMLpH0vHjxy0SpJR6lNWvX1/xvJk9e7bJF4dvvvlGNm3Hjh1Vn7+jRo2SzWvixInCnNQEqZYtW4oePXqIrl27Fv316NFDtG3bVtSoUcOo30dYWJjePixfvlysXbvW6H1Xqlo0VO5ubm6K+9mtWzeDr3k87s0335R8rUMpSBXe/GRnZyue/wDEpk2bVO3PyZMnxVdffaV6/wtNnz5dcR+kboaNCVKdOnUS4eHheumPHz8uDhw4UPT/unXrFPPSaDRFXdsNGT9+PIOUmiB1+/Zt2TQvvPCCqmMrvONUm8fmzZtltzt48OBi669cudKoY338Dk3uRH3mmWcMHldJg5RSkNi6dati2WZmZsreBKxevdpg2s8//1x2+23btlV9/g4bNkw2r3HjxpV6kDLXX/v27c2673PnzpXdno+Pj16agwcPKu5n3bp1zbJ/SkGqc+fOQgghunbtavS7ZZaQk5OjuB87duwwOUh17dpV9b689tprivmtWbNGVV4vvPAC26SUHDhwQPbzHj16ICcnR7ZbuI2NDerXr2/w85iYGL1lwcHBsLW1NZjv3r17iw2jJDfZnqF2qebNmwP4dwgbuXYzS72VD/w7m61cG4i/vz+ysrIMtjtZW1ujoKAALi4uRcO0PO7KlSvsulcCVlZWCA0NVbVubGwsTp48iStXriAxMRHZ2dmws7NDzZo1UadOHfj7+6Ndu3ayI68A/45u8ji5NtNCK1asKJUyqV69OmbOnKl4fejatSu++uork7eTk5ODo0eP4syZM7hz5w5SUlKg0WhQvXp11KxZE40bN0ZgYCDq1q2LunXryk7QmZOTY9I+2Nra4s8//1S9/qlTp2Q/b9CgAYYPH64qr6CgIPz1118W+Q4tEqRsbW3h6upqsAFbroupVqvFvXv3jN6m3HtDhd1JP//8c9n3G6ytrWWDWGJiIrKysuDg4FC0rEqVKggKCsKOHTsk06SlpSE8PBzt27c3qtPEo0Hugw8+AADFqRr69etnsR/75cuXDX6m0+nQpk0bFBQUGCzfwuGb5EbwTkhIYKQpgbCwML2u548LDQ3FkiVLVN0s1alTR9V4b4+PZXn+/HnZ9evWrYvg4OBSKZOdO3di8+bNsuvUqFFD8bUOQ6KiorBw4UJs2rRJ8bplZWWFwMBAZGZmWuRYR44cWezaJCcjI0NxEGJjOr4YuvEss0Gqbdu22LNnj0lBKiEhAQ0aNDD6ZTmlUaTlxtNSKysrC6mpqXonQv/+/Q0GKeDfXn7t27fHxYsXcefOHb3PfXx84OPjg507d+p99s8//+Dhw4ews7OT/SEVBktLSE9Px+3bt2WDlJqeS0rUvKRK+jw8PLBhwwa0atVK9iIyfPhwo+52b926hVu3bin+ZqXSyenevXuplY3SC7J16tTB3r179cbDU+Prr78uuoFUQ6fTKY4baahM1WjRooVR363cDTmAohqcJ15DYIlMbWxsYGNjA1tbW6P+bGxsTB4poTQucDqdTrI6S6marTC4GJpmoV27dgYHlM3NzS26M5WrRimsdrSE5ORkyWodc7PoIJUVkI2NDd577z1cuXJFNkAlJSUhMDDQYtUxUnfpctTONlAafHx80LBhQ6PTTZgwwagAVRqM+Y2q6T6u9FReroNUSS426enpJqUzNJKy2QtM4v2IwpGNDSms+7106ZLk535+fvDz8zM4hH9ERARyc3Nl3ya35CgTT7JsqTg7Ozt07NgRX3/9Na5du4Z58+bB3t5eNk2XLl0Un27MSakWxFI3U6Y4cOAAfvzxR6PSLF68GMuWLStz54YxI/Woqal6dHaGJ6nCdJyoXLlyqWzH0AW7f//+si9A/vzzzwY7BhQ+Vnfs2FFyOKTw8HDZl08B6L1oXB7LVq4xuaJ7++23UadOnWIXmv/rfYvKlSujVq1acHd3h7+/v1G1DUuXLkVERITq9TUajdHV9FKBVI45qt7VcnJyUnxqGDduHF588UXJMfoel5KSgkmTJhl141XSYd4sdbOjxFJtZ09tkFL64bZr1w5ubm4mnzBarRbW1tZwcnKS/HzAgAGy8zdNmzZNstNA4dwswL89EKWCVGhoqOwb8B06dDBpQjO1atSoAQcHB4OdHqytrRESEoKCggKTL3C5ublFnUueRnPmzFF8IjI1XyWTJ09Gv379UL9+fdjY2CA5ORnXr19HWFgYNm7cKNseaei3GBUVZfDz06dPl1q59u7dG02aNMFHH30ku15ISIjieJqFQV9Jhw4d8MYbbyAwMBAuLi7Izs5GQkICzp8/j82bN+Pw4cMlvhGw9PUS+LcHqNRoIgxSJlKq5+7fvz/ef/99i22/YcOGaNCgAa5evSr5uaEBWdu3b1/UESMoKEiynlupvW3AgAEWLVsHBwd4eHgYfBIUQmDVqlVmHaVaahtKTwDm8iRmXY6JiUFgYKBZ87x8+bJiNd/q1asxYsSIYss8PDzQrFkzDBgwAB06dMCQIUOM2q6Pj4/sILgHDx5EZmZmiWZLUOvu3btYt24d1qxZI/uKw8mTJzF37lxMnTpVNj+ldr3u3btLzmDQsGFDdOvWDe+++y5q1qxptgGaTVWnTh24ubnJdnjatWsXxowZoyo/S85mXWEaAVq2bCn7+f/+9z+L74Mp7UKP9nRq1qyZSdMym6vruVybUJMmTQx+ptPpio27ZwlKgcOY+nOlgFdW6uJLSqmar0GDBnoB6nGGag7kPD5u4OMKCgosesP4qMLetErd0AHg/ffflx0XUQiBuLg42TzUzNxc2tPHG6r98Pf3l11n06ZNqsfns2TVYIUJUl26dJG9yCYnJ5s8d1F+fr6qDh2mPNH06NFD9n8lfn5+8Pb2VnVhVro4y7U9Kb3X8vPPP8u+8CsnNTW1xIHDmI4BSh00Ksr7WkoXjnr16inmYUpZqGkfXbZsmarA8WjADQ8PN3pfCgfubdiwoaq2JLn5mPLy8hRftFW6yRRClGqbnJyOHTvKfq7VajF48GDFfM6ePYslS5YwSClxdHRU7Aq+cuVKo+7ghBBYtGgRGjRooPgeFvD/273UcnFx0es6bOw7JGoDo7W1teLTiKHehwAwaNAgxW1069ZN9n2xx8XHx2PQoEGq8laqGoqNjVX9orRSXnv27DHphfKyRunFzsdHGZeiZmLAx7m7u6tqyxg4cKDBVy8K5ebmYvHixQgICCjx6ODfffedYhCJjIzEJ598IvmZra2tYrWW0ovMH3zwQZnpkKCmGnfPnj0YMmQIEhMTJT9ft24dWrVqZXKvbLUX4gozffypU6dUjW/m7+8vlixZIiIjI0VBQUGxPJKSksTevXvFtGnTig2ueevWLVX7P3r0aNXjrA0cOFAvvTED0AIQJ06cULVfDx8+FNWqVVMc0HbdunXi1KlTYv369XpzaKkZSBKAGDJkiNiyZYu4e/dusfQFBQXi2rVr4o8//hCvvfZa0ffcoUMHxf3fuHGjqnmp5s6dK06cOCHOnDkjduzYIb7//nu9QUA/++wzVXMlrVy5Upw6dUqcPn1a/PHHH+KXX34pGgX6Sc4npda5c+dMHsX8/v37qkZB9/DwkCwTY+Zb8vX1FdOmTRMbNmwQR44cEQcOHBA//PCD+M9//iOeffbZovWWLl1a4vmkDh06pGqfDH0fSnNR1a9fX3K6eSGEWLhwoapth4aGmjR23/z5840+R/z9/VXtk4ODgxgxYoSYP3+++Pbbb8W0adNEixYtSmU+qQoVpIQQom/fvkZd5J999lnRpEkT0bRpU1G/fn3h4OAguV58fLyq/d+6davqbS9evFgyj8KpCZT+atWqZZETsvCvb9++xdKnpqYald7Ozk54eXmJZs2aiYCAAOHu7i653osvvqi471FRUSYPuvr4jYjSlC4wYjDVshykdDqd4lQyAETr1q3FnDlzxNq1a8VPP/0kJk2apHhDoxSkhBAiJCSkTE56qDRzAWQGwJ02bZpiWmdnZ/H222+Ln376Saxdu1bMnj3bqEk8SzNIbd++vcxPeljhglRGRoawt7c3eyGrDVI5OTmy8yY9+hcVFSWZx1tvvaUq/RtvvGFU2Q4fPtyoY54wYYJeHmvXrjV72fbp00fV/hsKcsZeRO/du2fSfgYHB5erICWEEB999JFFLz5yQSo7O1tUr169zAWpgoIC4eTkpLi9SZMm6aWNjY21+AW9NIOU2pmKn2SQqnCv+Ds6OiIsLOyJbd/Ozg49e/ZUXK9evXoGZ3pV23nC2N6Eo0aNKvHxvfLKK09sOJjRo0ebJZ8aNWoY3UGlvPr4448t2j1YTpUqVXDkyJEy0Zvt8fbZ33//XXG977//HocPHy62zNPTE+PHj69Q58jWrVv1Zm4uSyrkODQtW7bE0aNH4erqarY8jRkaSE3wkOsg0aVLF8XebPb29kZfaLt37y47fJNaX331Ff773/+arWzVjjTx4Ycfmm30i0WLFj0VQcre3l5x9Hw5NWvWNOm1iEKNGjXC6dOnZafAUcuc05W/8MILqjrsSL3esXTpUqMGc32UjY0NfHx8ytQ5UrNmTcWpTJQEBARYbGQak4KU0sjCSp8rdORQHFdKzdiAbdq0wZUrV1R1oVQSFBRk1GCLarrgygUpR0dHxWASHBxc1L3WGDt27ICHh4fq78KQzz77DDt27DBpcM7HqX1hsGrVqpIvSsoxNJxU48aNsXz5cqPyMnWeHzXjpFly6JyOHTvi77//NnpUkiFDhuDEiROyQ3KpGdS0cePGiIiIwLhx40p0HF5eXkZfC+T2b82aNYoX1pSUFLz00kt6y48dOybbXV2Kg4MDjh8/jl69epl0vihdV0syZmrHjh0RHh4Od3d3o9MuWLAAf/zxh+z+lSQmmNQm1bp1a9n6x+eff97k+kc1vdtmz55tVJ579uwRgwYNMqqtytraWvTu3dtg/bCStm3byub/eM+3x33xxRey6U2ZCvzRdruxY8fKzpILA70PpSxdutSohmH8X6ePN998U1y5csXo/T979qzo3Lmzqu24ubnJ9sjbvn27eO655yxar75ixQqjZ2C2hHv37onJkycrthN5eHgUtW/k5eXJrlutWjWjejyeOHFCjBgxQnXHDACiR48eYvv27ZL5LViwQDZtvXr1ZPdnw4YNqvZh3bp1kulXrVolAgMDZdNaWVmJkSNHFvUQVmrT//333yW35ePjI5vuyy+/LPE5kp6eLiZPnizs7OwUy6Rp06Zi/fr1qnpztm7d2uR90ggTBpGKjIxEcnKy5J184eyrfn5+JgXNvLw8nDt3DjqdTvKly/z8fHh5eaF27dpG533v3j0cOnQIp06dQmxsLG7fvo28vDxoNBo4ODjA3d0dHh4eaNq0Kdq2bYu6deuaHPwTExNx9epVvTLSarVwcHCQHcGh8Ang3Llzeu83Fb6U26pVqxKPGh4XF4c9e/bg/PnziIuLQ0pKCnQ6HRwcHNCwYUMMGzYMnTp1Up3fuXPncOzYMVy8eBFxcXFITk6GEAKVKlWCs7MzPDw84O3tjZYtW6Jdu3Ylrh44duwY9u/fjytXriA+Pr7ortnZ2Rne3t547rnn0LVrVzRu3Fgxr3379iEsLAxRUVFISEhAfn4+NBoN3Nzc4OXlhWbNmiEoKMikcyIpKQnR0dGSVbiF32eTJk0sMnafoWqz/fv348SJE0hISEBaWhqcnJxQv359dOjQAT169Chqo8jMzMTly5clf49arRZVqlRRnL1XSnp6Og4ePIhjx47h2rVruHXrVlGZV69eHZ6enmjSpAk6duwoOzLCvXv3EBMTY/Ba5OjoiOeee052X06fPo28vDyD7TI5OTlwdnaWPc6jR48iPDwcMTExuHfvHqysrFCrVi00bdoUPXr0KFbdGRUVhaSkJL19LqxF8vPzg4uLi942Ll26hIyMDMnzKD8/H97e3qoGyVXj9u3b2Lp1K06ePIno6Oii8vHw8EDjxo3RtWvXYteG5ORkREVFSb6PmZ+fD1dXVzRq1MikfTEpSBEREZUGTuBDREQMUkRERAxSRETEIEVERMQgRUREDFJEREQMUkRERAxSRETEIEVERMQgRURET5tKpiRKT09Hdna24nQSpigc+6+szUFDRESlz6Sx+1588UXs3bvXYkFq6dKlZpvgjkjJL7/8giNHjqBOnTp44403jJqWhYjK4JPUvXv3kJubW7I5QmRkZWXxm6FS0atXr2KTAs6fPx/h4eEmj+JPROZlUpuUk5OTRXfKUjM8Ej3q22+/1Zu1Ni0tjU/xROU9SFlaeno6vxmyuB07dkguP378uMVqCYjIOGZrVKpRowaaN28OrVaLkkxRlZ+fr2qSuifhn3/+wSeffFI0sZdWq4WHhwd++eUXnknlkLe3t8Fz2RLtrUT0BINUly5dsH79+gpdWHFxcTh06FCxZTY2NgxS5dT06dPx008/IS8vr9jyb775xuAsrURUusxW3Zefn1/hC6tq1ap6yx6dFprKl7p16+Ls2bMICQmBh4cHWrRogVWrVmHkyJEsHKKK9iSl0+lYmlTuNG7cGFu3boUQAhqNhgVCVFGfpIjKMwYoIgYpIiIiBqlH5eTkIDk52SxtZh4eHnrLLPVOl06nQ0pKSoXojp+amoqMjIyn5keVmZmJ1NRU5OTkWHxbGRkZSElJgVar5dWMKqRy1c82NTW1WE+6wnaE0aNHF3vBeO/evdi0aROOHj2K27dvIzs7G05OTqhTpw7at2+PkJAQdOnSRfFCs2rVKmi1Wmg0GtjZ2eHEiRN66yUmJuLbb7+FlZVVsQuFEAIODg54/fXXYWWl7l5g37592LVrF44ePYqbN28iLS0NVlZWcHV1hbe3N9q1a4d+/fqhadOmRpXb4cOHcfLkyaL90Ol08PPzQ69evYrW2b9/PzZu3IhTp04hMzMTdnZ2CAgIwNy5c1GzZs2i9dLS0rB69Wq972D48OFwdXUFANy/fx+//vor9u7diytXriA5ORnW1tZwdXWFr69v0XEEBAQYfQ5IHUujRo3wwgsvFDuW0NBQnDp1Cg8ePICdnR38/f3xzTffoFatWsXy+/nnn5GWllZU3SeEQEhICLy8vFTv07Vr17Bx40aEh4cjMjISKSkpyMvLg52dHVxcXFC/fn0EBgaia9euCAoKKlHPwejoaISGhuLIkSOIiopCcnIyCgoK4OzsDHd3d7Rq1Qq9e/cuVh5E5ZowQffu3QWAYn8hISHC0s6fP6+3XQDi6tWrQgghoqOjRVBQkOQ6j//16dNH3Lp1y+C2rl+/riofpb+HDx8qHtfOnTtFq1atVOf58ssvi+vXr6sutxEjRujl0bZtWyGEENnZ2WLAgAEGt3Xs2LFieV26dElyvczMTCGEEHPmzBGOjo6qjmPo0KEiJibGqHNA6lhatmwphBDi4cOHYtCgQQa3d/jwYb38pNZbs2aNqn1JTU0VY8eOFRqNRvV3V79+ffH111+L7Oxso4775s2bYuTIkaq306RJE7FlyxZBVN6VqyB15coVyR+kEEJcvHhR2NraGhVAqlWrJiIjIyW3devWLWFlZVWiAFWzZk2Rm5sre0zvvPOOSXnb29uL3bt3qyq3KVOm6KWfOnWqEEIIf39/2e2cO3euWF7R0dF667i6uop79+6J4cOHG30clSpVEr/88ovqc0DqWN555x0hhBDPPfec7LZOnTqll1/9+vX11lNzcY+IiBDu7u4mnxtDhgxRfcybNm0SVatWNWk706ZN41WOyrVy3ybl7e2NvXv3ol27dnovZSpJS0tDhw4dJIfA0el0Je5Wr9SeNGTIECxcuNCkvLOzsxEcHIzw8HDFdaV6rlWrVg0zZ85EREREib8DW1tbtG3bFr/++qvRaQsKCjBixAgsWbJE1fqGjmXWrFm4ePGi0ds3pVdfamoq2rRpg9u3b5tcZvHx8arWW716NQYOHIjMzEyTtvP1119j6tSprDIitkk5Ojo+kQPIyMhA79699TpGuLu7w9PTExqNBvHx8bh586Zk+qSkJEyZMgXff/99seXW1taoWrUq8vPzYWVlBWtra+Tl5ekFwsL2Ko1GU2w4KK1Wq9f+8ajJkydjw4YNkp/5+PigW7du8PLyQn5+PiIjI7F7927cv39fb93g4GAkJibC3t7eqHJbtmwZbt26pbjew4cPFde5c+eO5PKAgAB4enpCCIG4uDjZgDhx4kT4+vqiR48eRp8DK1asQEJCguJ65urIMHLkSDx48EBvuYeHB3r16gU/Pz/Y29sjJycH165dQ0REBMLDw4uVZfXq1VW1v40aNUryM3t7e/Ts2ROBgYFwdHTE9evXER4ejjNnzuitO2/ePHTt2hV9+vThFY+e3iAVHR2NLVu2mDxu38OHD+Hr64sWLVoYle7xC/fQoUMxbtw4dOzYETY2NkUB4+DBg5gzZw727dunl8fixYvx+eefw8XFpWhZrVq1cPXqVeh0uqIgtW3bNrz++uvF0np6eiI8PFwySNnY2MDW1lZve/v379cLigBgZ2eHxYsXY8yYMXqfZWZm4quvvsIXX3yht3zKlClYunSpUeX2eIB68803ERwcDE9PTxQUFODq1as4evSo5CgbSv7zn/9g/Pjxeh08IiIisHLlSsyfP18yXb9+/ZCcnGz0hJePB6gJEyYgODgYXl5exY7F2dm5xOd5TEwM/vzzT73l06dPx8yZM4vOucfdvXsXv//+O7777jvExsYiLS1N8QnzxRdflPxs0qRJ+OSTTyTnvQoNDcWYMWP0elMOHz4cKSkpfB+Myh9ztUmZ4693794mtUkV/v3222+K+96/f3/JtMuXL1dMu2/fPr10jRo1Mrr8pNoy7O3txeXLlxXTLliwQHL/k5KSDKaZOnWqwTJr2LChqu3KtUkV/tna2oq///5bMY/jx4+L6tWrS+bx7rvvyqaVOxYfHx8RERFh1Hfh6elpVJvUV199pbf+gAEDVG+voKBAvPLKK6Jp06ZCq9UaXO/DDz+UPMbvvvtO1XdkY2Ojl/bHH39kAwc9vR0nzPE3fPhwk4PUxo0bVe27TqcTTk5OeumHDRummDY0NFTywmiM9evXS+7/gQMHVOfRvn17vfTz5s0z+sLu4uIi0tPTjdp/uSAl1THBkKioKMlecRqNRmRkZBh9LNWqVROpqalGn8vGBimpHnbbt283ervXr18XBQUFkp9lZmZKdtoZNWqU6vyXLVuml75Fixa84hE7TpSEqVURL730EgYNGqR6GyNGjJCsriwNixYt0lvWp08fxfe2HjVr1iy9Zdu3bzd6X1auXGm2CSwXLlxoVFWtr68vvv32W6kne/z2229Gb//HH39EtWrVLP79SXVguH79utH51KtXz+D7UmvWrNHrtGNvb48ffvjBqCpXNze3YstOnz6Nu3fvsvqIypUyFaQSExNNSid10ZbTqVMnxbYtS0hKSsKRI0f0ls+YMcOofLp27arXvnLq1Cmjejc2bNgQ/fv3N9uxmTJy+KRJkyTbVbZs2WJUPj4+PqpvUkpKqoPQrFmzcPnyZbNtY9OmTXrLRo8ebbC9yxCpjhJS5x9RWWa2jhPNmjXDO++8U6KOE/7+/ialrVGjhlHrP36HWbj9goICi052d/DgQb1l/v7+aNWqldFPnJ06dSrWgP/gwQPExMSoLsP27dub9djS09NNepIZOXIkvv7662LLjh07ZtR30bZt21L7wbRs2RI///xzsWX37t1DQEAApk+fjtGjR6NBgwYm55+Xl4ejR4/qLZ85c6bRefXr16/Y6CAAcPny5VIL6ERlKkj5+/tLVqOVhqysrKIheUwlhIBWq7VokDp//rzeMgcHB4SGhiI3N1dVgNdoNLC2tsa9e/f0PktISFAdpIx9p0yJqWPH9ejRQy9IpaenIzo6WvUMzeY+FjmvvPIKJk6cKHn+zJkzB3PmzEHv3r3Rt29f9O3bF88++6xR+V+5ckWvStHa2hqbN2+Go6MjCgoK1P2wK1XCP//8I3mOED2VQao8DSAq9ZKuRqOxePdcqbaLEydOYPDgwWZ7milJGTwJvr6+ksvj4+NVB6nSPBYXFxcsXboUEyZMMLjOzp07sXPnTrz11lsICgpCSEgIhgwZUuwVB0Pi4uIkbwDGjRtX6ucIUVnAqTpKUXJyskXzL4+zI7u6ukq+i6X0HtGTNH78ePz3v/9V9X3s3LkT48ePh5eXF9577z3JJ+DSPEfUPokRMUg9haSGXzKn7Ozsclcmhl54LusB97PPPsPu3bvx/PPPq1o/LS0NCxYsgK+vL/744w+D66kZ4YNPUvQ0qcQiKD1SXY7d3NyMHmHBEKkOIWVdTk6OZHA1V5lYUs+ePdGzZ09s27YNa9aswfbt2xWDTHp6OoYOHYoHDx5g7Nix+j9IiTZRe3t7uLq6mtwp6VEl6dRBxCBVwUn1fhs/fjw+//zzp7ZMEhMTJS/s5SnghoSEICQkBImJidizZw9CQ0Oxa9cu2YA1btw4dOrUSa9NTqrdql69embt4k5UnrC6rxRJzez7tF98Ll26JLnc29u73B3LM888g+HDh2Pz5s2Ii4vDDz/8gA4dOhhcX+r9OKlzJDY2tsx0dCFikKrAmjRpords165dFaIxu3Llyial27Ztm96yOnXqoF69euW6PGrVqoVx48bhn3/+QWhoqOQo9bt379ZrewsICNB7aTc3NxebN2/mD4gYpEieVJuA2qnhAaB79+56y7Kzs/VeDi2PpDo/KMnNzcXvv/+ut1xqRJDybODAgZLTsqSlpemNRl+1alW0bt1ab12pIaSIGKRIkTE96tzd3SVHl5g+fXq5Lwc1XbIf99Zbb0m+iPvKK6+UyWMsSZVb7969JacKkWq3Gjp0qN6yQ4cOYe/evfzBEYOUqZ6GeWqqVKmitywhIcGobr0ffPCB3rKkpCSDcwcpyczMRGRk5BMvmyVLlmDVqlWq1//9998lB0x1dXU1uSwsraCgADNnzsS1a9dMCnCPB2Rra2vUrl1bb91Ro0ZJPqH3799f9Yy+j4uMjDR5VBCiChGkHBwcKnxh1a1bV/Li8+mnn6rOY+DAgfDx8dFbvmPHDvTu3duoKckPHDgAPz+/MlNdOGbMGMyZM0dxvUWLFhl8Wpo7d26Z/f5tbW0xd+5c+Pv7Y/369UalnTx5st7MwI0aNZLs8eng4IDZs2frLc/KykLz5s2xe/du1du9c+cO+vTpg8GDB3PCQyqXzNYF/ciRI5g4cWKJXsIUQkCn02HUqFHo2LFjmSusxo0bw9nZWe/J6bvvvoMQAmPGjIGvry8cHByQlJSEq1evIjAwUO8JbNOmTXjuuef08v/rr7/g4+ODCRMmYNCgQQgICCg26nZBQQGuX7+OQ4cOITQ0FDt37gTw7+zAZcXHH3+MjRs34vXXX0fnzp1Rp04dCCFw69YtHD58GKtXr8bx48cl0wYGBhqcLr2saNWqFfbv34+XX34Zc+bMwauvvopu3brB399f8t2uM2fOYMGCBfj111/1Phs+fLjB7UyfPh2rV69GVFRUseUpKSno1asX+vXrh+HDh6NDhw6oVauW3pP5mTNnsGXLFqxevRrZ2dno1KmTUe2nRBUuSMXHx2PJkiVmycvX17dMBilra2u89NJL+PHHH/U++/777/H999/D1dUVjo6OSExMRF5enuTwPgEBAVixYoXkeGzZ2dmYN28e5s2bBxcXF9SvXx92dnbIz8/H3bt39RraC5/mypKzZ89i0qRJAP6d2kIIITkP06MqV66MXbt2lfkfzKNVdufPny8aNPiZZ56Bt7c3qlevDgcHB6SnpyM2NtbgPGVVq1bFu+++K7ut/fv3o2HDhpJlt3XrVmzduhW2trbw9PRE9erVodPpkJaWhhs3bug9tUlVVRM9VUHKnKpXr15mC2zmzJmSQapQcnJy0fhrLi4uBkdOGDt2LPLy8iRH1C6UmpqK1NRUxX1Ss44l1alTBy1btpTsJv3gwQPF9FWqVMHhw4f1ngjKops3b0ouT0xMNGo+tD179ih223d3d8epU6cQFBRkcLt5eXl6T1tSbty4wasdlUsmPf9benwxQ+8NGXpiMHa4GKkG5MfvPOUuHI/O46T05CX3lPPmm28iLCzM5Hm0Cp86pSa3M3T3X8ic4wimpqZi06ZNJj1Jt2nTBhcvXkTz5s2NfpIxx7FIfe9yHQxmzJghOfGhMQH94MGDaNOmjar1GzZsiEuXLpWox6OVlRXeeecdXu3o6QlS5hhD7Enmb0wAlPLiiy8W3eHKSUpKUsyrc+fOuHTpEpYuXap6sFLg3xeD58+fj8jISAQGBj7RMs7KysL9+/cxYcIEHDp0SLFcCvd/yZIlOHr0aIlHlyjJsUillctvzJgxuHbtGmbNmmVUuXt5eeGzzz5DdHS00e+BOTk5Ye3atdi/fz8GDx6seobemjVrYuLEiYiKisIbb7zBqx2VSxphwi88NjYWycnJJr3AqeZOubBuX+qO+cqVKxBCwMrKCjqdDlZWVvDz8zNqXzIzMxEVFQVra2toNBpotVrY2dnBz8/P6B5Qly9fRlhYGCIjI3Hz5k3k5+dDo9EUtav169fPqDwvX76MI0eOICoqCnFxcUVPCQ4ODqhXrx4aNGiANm3aSI5eYcidO3dw8+bNouqlvLw8PPPMM5JD8CiJiYmRnAMqJiam2OClFy5cwN69e3H+/Pmi6s9atWrBz88PHTp0kHxh1dRjqVmzpskjVFy5cgXZ2dlFA7vm5+fD19cXTk5OqtOfPXsW0dHRiI+PR0pKCrRaLaysrFC7dm00aNAArVq1QufOnc32G7l9+zaOHj2KCxcu4Nq1a0Xtnra2tqhVqxY8PT3RtGlTtG/fXnKkC6IKH6To6WUoSF27dg1eXl4sICIyK/ZJJSIiBikiIiIGKSIiYpAiIiJikCIiIgYpIiIiBikiIiIGKbIEqWGJAJRo9HsiIkMqsQjIGNWqVUOPHj30lqsdoYGIyBgccYKIiMosVvcRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBEREYMUERExSBERETFIERERgxQRERGDFBEREYMUERExSBEREZng/w0AN4/Bj8GVV3YAAAAASUVORK5CYII=",
-                    "Label": "HPE OneView for Log Analytics v2.0.0 - Server Hardware",
-                    "Link": {
-                      "Label": "More info",
-                      "Url": "https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html"
-                    }
-                  },
-                  "List": [
-                    {
-                      "Title": "Hybrid IT Management",
-                      "Content": "Provides a bridge between Microsoft cloud management services and HPE hardware infrastructure. "
-                    },
-                    {
-                      "Title": "Manage on-premises HPE infrastructure",
-                      "Content": "Data is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis. "
-                    },
-                    {
-                      "Title": "Provide feedback",
-                      "Content": "To provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at www.hpe.com/info/ov4la-docs."
-                    }
-                  ]
-                }
-              },
-              {
-                "Id": "SingleQueryDonutBuilderBladeV1",
-                "Type": "Blade",
-                "Version": 0,
-                "Configuration": {
-                  "General": {
-                    "title": "HPE OneView Server Hardware",
-                    "newGroup": true,
-                    "icon": "data:image/png;base64,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",
-                    "useIcon": true
-                  },
-                  "Header": {
-                    "Title": "Server Status",
-                    "Subtitle": " "
-                  },
-                  "Donut": {
-                    "Query": "let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc",
-                    "CenterLegend": {
-                      "Text": "Total",
-                      "Operation": "Sum",
-                      "ArcsToSelect": []
-                    },
-                    "Options": {
-                      "colors": [
-                        "#00188f",
-                        "#0072c6",
-                        "#00bcf2"
-                      ],
-                      "valueColorMapping": [
-                        {
-                          "value": "OK",
-                          "color": "#55d455"
-                        },
-                        {
-                          "value": "Warning",
-                          "color": "#fcd116"
-                        },
-                        {
-                          "value": "Critical",
-                          "color": "#ba141a"
-                        }
-                      ]
-                    },
-                    "NavigationSelect": {}
-                  },
-                  "List": {
-                    "Query": "let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s",
-                    "HideGraph": true,
-                    "enableSparklines": false,
-                    "operation": "Summary",
-                    "ColumnsTitle": {
-                      "Name": "System",
-                      "Value": " "
-                    },
-                    "Color": "#0072c6",
-                    "thresholds": {
-                      "isEnabled": false,
-                      "values": [
-                        {
-                          "name": "Normal",
-                          "threshold": "Default",
-                          "color": "#009e49",
-                          "isDefault": true
-                        },
-                        {
-                          "name": "Warning",
-                          "threshold": "60",
-                          "color": "#fcd116",
-                          "isDefault": false
-                        },
-                        {
-                          "name": "Error",
-                          "threshold": "90",
-                          "color": "#ba141a",
-                          "isDefault": false
-                        }
-                      ]
-                    },
-                    "NameDSVSeparator": "",
-                    "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
-                    "NavigationSelect": {
-                      "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
-                    }
-                  }
-                }
-              },
-              {
-                "Id": "SingleQueryDonutBuilderBladeV1",
-                "Type": "Blade",
-                "Version": 0,
-                "Configuration": {
-                  "General": {
-                    "title": " HPE OneView Server Profiles",
-                    "newGroup": false,
-                    "icon": "",
-                    "useIcon": false
-                  },
-                  "Header": {
-                    "Title": "Server Profile Status",
-                    "Subtitle": ""
-                  },
-                  "Donut": {
-                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc",
-                    "CenterLegend": {
-                      "Text": "Total",
-                      "Operation": "Sum",
-                      "ArcsToSelect": []
-                    },
-                    "Options": {
-                      "colors": [
-                        "#00188f",
-                        "#0072c6",
-                        "#00bcf2"
-                      ],
-                      "valueColorMapping": [
-                        {
-                          "value": "OK",
-                          "color": "#55d455"
-                        },
-                        {
-                          "value": "Warning",
-                          "color": "#fcd116"
-                        },
-                        {
-                          "value": "Critical",
-                          "color": "#ba141a"
-                        }
-                      ]
-                    },
-                    "NavigationSelect": {}
-                  },
-                  "List": {
-                    "Query": "let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s",
-                    "HideGraph": true,
-                    "enableSparklines": false,
-                    "operation": "Summary",
-                    "ColumnsTitle": {
-                      "Name": "Profile",
-                      "Value": " "
-                    },
-                    "Color": "#0072c6",
-                    "thresholds": {
-                      "isEnabled": false,
-                      "values": [
-                        {
-                          "name": "Normal",
-                          "threshold": "Default",
-                          "color": "#009e49",
-                          "isDefault": true
-                        },
-                        {
-                          "name": "Warning",
-                          "threshold": "60",
-                          "color": "#fcd116",
-                          "isDefault": false
-                        },
-                        {
-                          "name": "Error",
-                          "threshold": "90",
-                          "color": "#ba141a",
-                          "isDefault": false
-                        }
-                      ]
-                    },
-                    "NameDSVSeparator": "",
-                    "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
-                    "NavigationSelect": {
-                      "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
-                    }
-                  }
-                }
-              },
-              {
-                "Id": "SingleQueryDonutBuilderBladeV1",
-                "Type": "Blade",
-                "Version": 0,
-                "Configuration": {
-                  "General": {
-                    "title": "Memory Module",
-                    "newGroup": true,
-                    "icon": "",
-                    "useIcon": false
-                  },
-                  "Header": {
-                    "Title": "Module Status",
-                    "Subtitle": ""
-                  },
-                  "Donut": {
-                    "Query": "let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable, HPEOneView_MemoryModule_v1_CL|summarize arg_max(TimeGenerated, *) by MemoryGuid_s |summarize AggregatedValue = dcount(MemoryGuid_s) by Status_Health_s |sort by AggregatedValue desc",
-                    "CenterLegend": {
-                      "Text": "Total",
-                      "Operation": "Sum",
-                      "ArcsToSelect": []
-                    },
-                    "Options": {
-                      "colors": [
-                        "#00188f",
-                        "#0072c6",
-                        "#00bcf2"
-                      ],
-                      "valueColorMapping": [
-                        {
-                          "value": "OK",
-                          "color": "#55d455"
-                        },
-                        {
-                          "value": "Critical",
-                          "color": "#ba141a"
-                        },
-                        {
-                          "value": "Warning",
-                          "color": "#fcd116"
-                        }
-                      ]
-                    },
-                    "NavigationSelect": {}
-                  },
-                  "List": {
-                    "Query": "let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_MemoryModule_v1_CL | summarize arg_max(TimeGenerated, *) by MemoryGuid_s |project ServerName_s,Status_Health_s,DeviceLocator_s",
-                    "HideGraph": true,
-                    "enableSparklines": false,
-                    "operation": "Summary",
-                    "ColumnsTitle": {
-                      "Name": "Server Name",
-                      "Value": ""
-                    },
-                    "Color": "#0072c6",
-                    "thresholds": {
-                      "isEnabled": false,
-                      "values": [
-                        {
-                          "name": "Normal",
-                          "threshold": "Default",
-                          "color": "#009e49",
-                          "isDefault": true
-                        },
-                        {
-                          "name": "Warning",
-                          "threshold": "60",
-                          "color": "#fcd116",
-                          "isDefault": false
-                        },
-                        {
-                          "name": "Error",
-                          "threshold": "90",
-                          "color": "#ba141a",
-                          "isDefault": false
-                        }
-                      ]
-                    },
-                    "NameDSVSeparator": "",
-                    "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
-                    "NavigationSelect": {
-                      "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
-                    }
-                  }
-                }
-              },
-              {
-                "Id": "SingleQueryDonutBuilderBladeV1",
-                "Type": "Blade",
-                "Version": 0,
-                "Configuration": {
-                  "General": {
-                    "title": "Physical Drives",
-                    "newGroup": true,
-                    "icon": "",
-                    "useIcon": false
-                  },
-                  "Header": {
-                    "Title": "Drive Status",
-                    "Subtitle": ""
-                  },
-                  "Donut": {
-                    "Query": "let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s | summarize AggregatedValue = dcount(SerialNumber_s) by Status_Health_s |sort by AggregatedValue desc",
-                    "CenterLegend": {
-                      "Text": "Total",
-                      "Operation": "Sum",
-                      "ArcsToSelect": []
-                    },
-                    "Options": {
-                      "colors": [
-                        "#00188f",
-                        "#0072c6",
-                        "#00bcf2"
-                      ],
-                      "valueColorMapping": [
-                        {
-                          "value": "OK",
-                          "color": "#55d455"
-                        },
-                        {
-                          "value": "Critical",
-                          "color": "#ba141a"
-                        },
-                        {
-                          "value": "Warning",
-                          "color": "#fcd116"
-                        }
-                      ]
-                    },
-                    "NavigationSelect": {}
-                  },
-                  "List": {
-                    "Query": "let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s |project ServerName_s,Status_Health_s,Location_s",
-                    "HideGraph": true,
-                    "enableSparklines": false,
-                    "operation": "Summary",
-                    "ColumnsTitle": {
-                      "Name": "Server Name",
-                      "Value": ""
-                    },
-                    "Color": "#0072c6",
-                    "thresholds": {
-                      "isEnabled": false,
-                      "values": [
-                        {
-                          "name": "Normal",
-                          "threshold": "Default",
-                          "color": "#009e49",
-                          "isDefault": true
-                        },
-                        {
-                          "name": "Warning",
-                          "threshold": "60",
-                          "color": "#fcd116",
-                          "isDefault": false
-                        },
-                        {
-                          "name": "Error",
-                          "threshold": "90",
-                          "color": "#ba141a",
-                          "isDefault": false
-                        }
-                      ]
-                    },
-                    "NameDSVSeparator": "",
-                    "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
-                    "NavigationSelect": {
-                      "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
-                    }
-                  }
-                }
-              },
-              {
-                "Id": "SingleQueryDonutBuilderBladeV1",
-                "Type": "Blade",
-                "Version": 0,
-                "Configuration": {
-                  "General": {
-                    "title": "Logical Drives",
-                    "newGroup": true,
-                    "icon": "",
-                    "useIcon": false
-                  },
-                  "Header": {
-                    "Title": "Drive Status",
-                    "Subtitle": ""
-                  },
-                  "Donut": {
-                    "Query": "let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable, HPEOneView_LogicalDrive_v1_CL|summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |summarize AggregatedValue = dcount(VolumeUniqueIdentifier_g) by Status_Health_s |sort by AggregatedValue desc",
-                    "CenterLegend": {
-                      "Text": "Total",
-                      "Operation": "Sum",
-                      "ArcsToSelect": []
-                    },
-                    "Options": {
-                      "colors": [
-                        "#00188f",
-                        "#0072c6",
-                        "#00bcf2"
-                      ],
-                      "valueColorMapping": [
-                        {
-                          "value": "OK",
-                          "color": "#55d455"
-                        },
-                        {
-                          "value": "Critical",
-                          "color": "#ba141a"
-                        },
-                        {
-                          "value": "Warning",
-                          "color": "#fcd116"
-                        }
-                      ]
-                    },
-                    "NavigationSelect": {}
-                  },
-                  "List": {
-                    "Query": "let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |project ServerName_s,Status_Health_s,VolumeUniqueIdentifier_g",
-                    "HideGraph": true,
-                    "enableSparklines": false,
-                    "operation": "Summary",
-                    "ColumnsTitle": {
-                      "Name": "Server Name",
-                      "Value": ""
-                    },
-                    "Color": "#0072c6",
-                    "thresholds": {
-                      "isEnabled": false,
-                      "values": [
-                        {
-                          "name": "Normal",
-                          "threshold": "Default",
-                          "color": "#009e49",
-                          "isDefault": true
-                        },
-                        {
-                          "name": "Warning",
-                          "threshold": "60",
-                          "color": "#fcd116",
-                          "isDefault": false
-                        },
-                        {
-                          "name": "Error",
-                          "threshold": "90",
-                          "color": "#ba141a",
-                          "isDefault": false
-                        }
-                      ]
-                    },
-                    "NameDSVSeparator": "",
-                    "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
-                    "NavigationSelect": {
-                      "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
-                    }
-                  }
-                }
-              }
-            ],
-            "Filters": [],
-            "OverviewTile": {
-              "Id": "SingleQueryDonutBuilderTileV1",
-              "Type": "OverviewTile",
-              "Version": 2,
-              "Configuration": {
-                "Donut": {
-                  "Query": "let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc",
-                  "CenterLegend": {
-                    "Text": "Total Servers",
-                    "Operation": "Sum",
-                    "ArcsToSelect": []
-                  },
-                  "Options": {
-                    "colors": [
-                      "#00188f",
-                      "#0072c6",
-                      "#00bcf2"
-                    ],
-                    "valueColorMapping": [
-                      {
-                        "value": "OK",
-                        "color": "#55d455"
-                      },
-                      {
-                        "value": "Warning",
-                        "color": "#fcd116"
-                      },
-                      {
-                        "value": "Critical",
-                        "color": "#ba141a"
-                      }
-                    ]
-                  },
-                  "NavigationSelect": {}
-                },
-                "Advanced": {
-                  "DataFlowVerification": {
-                    "Enabled": true,
-                    "Query": "HPEOneView_ServerHardware_v1_CL ",
-                    "Message": "No Server Hardwares available."
-                  }
-                }
-              }
-            }
+            "id": "HPE OneView Sub Components Workbook",
+            "version": "2",
+            "sourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+            "fallbackResourceIds": "[Concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+            "category": "[parameters('workbookType')]",
+            "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"<div style=\\\"background-color:rgb(0,158,73);color:white;height:80px;border:SOLID 1px;\\\">\\r\\n\\t<h1 style=\\\"text-align:center;\\\">HPE OneView for Log Analytics v2.0.0 - Server Hardware\\r\\n\\t<a style=\\\"text-align:center;color:white;font-size: 12px;text-decoration: underline;\\\" href=\\\"https://www.hpe.com/us/en/product-catalog/detail/pip.1010838356.html\\\" title=\\\"HPE OneView for Microsoft Azure Log Analytics (v2.0.0)\\\">More Info</a></h1>\\t\\r\\n</div>\\r\\n<hr>\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Hybrid IT Management</h2>\\r\\nProvides a bridge between Microsoft cloud management services and HPE hardware infrastructure.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Manage on-premises HPE infrastructure</h2>\\r\\nData is automatically collected from HPE OneView and HPE Synergy to bring visibility of HPE infrastructure hardware, inventory, health and status, and long term event correlation and trend analysis.\\r\\n\\r\\n<h2 style=\\\"color:rgb(0,158,73);\\\">Provide feedback</h2>\\r\\nTo provide feedback on this solution, please contact ov4alafeedback@hpe.com. This email should not be used for technical support. Documentation can be found at \\r\\n<a style=\\\"text-decoration: underline;\\\" href=\\\"www.hpe.com/info/ov4la-docs\\\" title=\\\"www.hpe.com/info/ov4la-docs\\\">www.hpe.com/info/ov4la-docs.</a>\"},\"name\":\"text - 0\",\"styleSettings\":{\"margin\":\"10px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER HARDWARE\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | summarize AggregatedValue = dcount(uuid_g) by status_s | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Status\",\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uuid_g:string, status_s:string, Computer:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerHardware_v1_CL | summarize arg_max(TimeGenerated, *) by uuid_g | project Computer, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Hardware Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"HPE ONEVIEW SERVER HARDWARE\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"HPE ONEVIEW SERVER PROFILES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL  | summarize arg_max(TimeGenerated, *) by uri_s | summarize AggregatedValue = dcount(uri_s) by status_s  | sort by AggregatedValue desc\",\"size\":1,\"title\":\"Server Profile Status\",\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Critical\",\"color\":\"red\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (uri_s:string, status_s:string, name_s:string, LaunchInContextURI_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_ServerProfiles_v1_CL | summarize arg_max(TimeGenerated, *) by uri_s | project name_s, status_s, LaunchInContextURI_s\",\"size\":1,\"noDataMessage\":\"No Server Profile Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"name\":\"HPE ONEVIEW SERVER PROFILES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"MEMORY MODULE\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable, HPEOneView_MemoryModule_v1_CL|summarize arg_max(TimeGenerated, *) by MemoryGuid_s |summarize AggregatedValue = dcount(MemoryGuid_s) by Status_Health_s |sort by AggregatedValue desc\",\"size\":1,\"title\":\"Module Status\",\"noDataMessage\":\"No Memory Module Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (MemoryGuid_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_MemoryModule_v1_CL | summarize arg_max(TimeGenerated, *) by MemoryGuid_s |project ServerName_s,Status_Health_s,DeviceLocator_s\",\"size\":1,\"noDataMessage\":\"No Memory Module Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"MEMORY MODULE\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"PHYSICAL DRIVES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s | summarize AggregatedValue = dcount(SerialNumber_s) by Status_Health_s |sort by AggregatedValue desc\",\"size\":1,\"title\":\"Drive Status\",\"noDataMessage\":\"No Physical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (SerialNumber_s:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_PhysicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by SerialNumber_s |project ServerName_s,Status_Health_s,Location_s\",\"size\":1,\"noDataMessage\":\"No Physical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"PHYSICAL DRIVES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}},{\"type\":12,\"content\":{\"version\":\"NotebookGroup/1.0\",\"groupType\":\"editable\",\"title\":\"LOGICAL DRIVES\",\"items\":[{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable, HPEOneView_LogicalDrive_v1_CL|summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |summarize AggregatedValue = dcount(VolumeUniqueIdentifier_g) by Status_Health_s |sort by AggregatedValue desc\",\"size\":1,\"title\":\"Drive Status\",\"noDataMessage\":\"No Logical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"piechart\",\"chartSettings\":{\"seriesLabelSettings\":[{\"seriesName\":\"OK\",\"color\":\"green\"},{\"seriesName\":\"Warning\",\"color\":\"yellow\"},{\"seriesName\":\"Critical\",\"color\":\"redBright\"},{\"seriesName\":\"Unknown\",\"color\":\"gray\"}]}},\"customWidth\":\"40\",\"name\":\"query - 0\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"let EmptyTable = datatable (VolumeUniqueIdentifier_g:string, Status_Health_s:string)[];union isfuzzy=true EmptyTable,HPEOneView_LogicalDrive_v1_CL | summarize arg_max(TimeGenerated, *) by VolumeUniqueIdentifier_g |project ServerName_s,Status_Health_s,VolumeUniqueIdentifier_g\",\"size\":1,\"noDataMessage\":\"No Logical Drive Available\",\"timeContext\":{\"durationMs\":86400000},\"showRefreshButton\":true,\"showExportToExcel\":true,\"exportToExcelOptions\":\"all\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"gridSettings\":{\"rowLimit\":10000,\"filter\":true}},\"customWidth\":\"60\",\"name\":\"query - 1\"}]},\"customWidth\":\"100\",\"name\":\"LOGICAL DRIVES\",\"styleSettings\":{\"margin\":\"20px\",\"padding\":\"20px\",\"showBorder\":true}}],\"isLocked\":false}"
           }
+
         }
       ]
     },
@@ -1102,32 +440,261 @@
       }
     },
     {
-      "name": "[variables('omsSolutions').customSolution.solutionName]",
-      "type": "Microsoft.OperationsManagement/solutions",
-      "apiVersion": "2015-11-01-preview",
-      "location": "[parameters('workspaceRegionId')]",
-      "dependsOn": [
-        "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-        "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'), '/views/', variables('omsSolutions').customSolution.name)]",
-        "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'), '/views/', variables('azureSolutions').customSolution.name)]",
-        "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'), '/views/', variables('omsSolutionsForSubComponents').customSolution.name)]"
-
-      ],
-      "plan": {
-        "name": "[variables('omsSolutions').customSolution.solutionName]",
-        "product": "[variables('omsSolutions').customSolution.name]",
-        "publisher": "[variables('omsSolutions').customSolution.publisher]",
-        "promotionCode": ""
-      },
       "properties": {
-        "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
-        "referencedResources": [],
-        "containedResources": [
-          "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutions').customSolution.name)]",
-          "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('azureSolutions').customSolution.name)]",
-          "[resourceId('Microsoft.OperationalInsights/workspaces/views/', parameters('workspaceName'), variables('omsSolutionsForSubComponents').customSolution.name)]"
-        ]
-      }
+        "lenses": {
+          "0": {
+            "order": 0,
+            "parts": {
+              "0": {
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "colSpan": 2,
+                  "rowSpan": 2
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": {
+                        "SubscriptionId": "parameters('subscriptionId')",
+                        "ResourceGroup": "parameters('resourceGroupName')",
+                        "Name": "OneView Appliance Details",
+                        "LinkedApplicationType": 2,
+
+                        "ResourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+                        "ResourceType": "microsoft.operationalinsights/workspaces",
+                        "IsAzureFirst": false
+                      }
+                    },
+                    {
+                      "name": "ResourceIds",
+                      "value": [
+                        "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                      ],
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Type",
+                      "value": "workbook",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeContext",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ConfigurationId",
+                      "value": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/microsoft.insights/workbooks/', parameters('workbookomsSolutionsId'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ViewerMode",
+                      "value": false,
+                      "isOptional": true
+                    },
+                    {
+                      "name": "GalleryResourceType",
+                      "value": "microsoft.operationalinsights/workspaces",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "NotebookParams",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Location",
+                      "value": "[resourceGroup().location]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "1.0",
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/NotebookPinnedPart",
+                  "viewState": {
+                    "content": {
+                      "configurationId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/microsoft.insights/workbooks/',parameters('workbookomsSolutionsId'))]"
+                    }
+                  }
+                }
+              },
+              "1": {
+                "position": {
+                  "x": 2,
+                  "y": 0,
+                  "colSpan": 2,
+                  "rowSpan": 2
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": {
+                        "SubscriptionId": "parameters('subscriptionId')",
+                        "ResourceGroup": "parameters('resourceGroupName')",
+                        "Name": "Azure Stack Hub Details",
+                        "LinkedApplicationType": 2,
+                        "ResourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+                        "ResourceType": "microsoft.operationalinsights/workspaces",
+                        "IsAzureFirst": false
+                      }
+                    },
+                    {
+                      "name": "ResourceIds",
+                      "value": [
+                        "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                      ],
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Type",
+                      "value": "workbook",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeContext",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ConfigurationId",
+                      "value": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/microsoft.insights/workbooks/', parameters('workbookazureSolutionsId'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ViewerMode",
+                      "value": false,
+                      "isOptional": true
+                    },
+                    {
+                      "name": "GalleryResourceType",
+                      "value": "microsoft.operationalinsights/workspaces",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "NotebookParams",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Location",
+                      "value": "[resourceGroup().location]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "1.0",
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/NotebookPinnedPart",
+                  "viewState": {
+                    "content": {
+                      "configurationId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/microsoft.insights/workbooks/', parameters('workbookazureSolutionsId'))]"
+                    }
+                  }
+                }
+              },
+              "2": {
+                "position": {
+                  "x": 4,
+                  "y": 0,
+                  "colSpan": 2,
+                  "rowSpan": 2
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": {
+                        "SubscriptionId": "parameters('subscriptionId')",
+                        "ResourceGroup": "parameters('resourceGroupName')",
+                        "Name": "Server Hardware Details",
+                        "LinkedApplicationType": 2,
+                        "ResourceId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]",
+                        "ResourceType": "microsoft.operationalinsights/workspaces",
+                        "IsAzureFirst": false
+                      }
+                    },
+                    {
+                      "name": "ResourceIds",
+                      "value": [
+                        "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                      ],
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Type",
+                      "value": "workbook",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeContext",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ConfigurationId",
+                      "value": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/microsoft.insights/workbooks/', parameters('workbookomsSolutionsForSubComponentsId'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ViewerMode",
+                      "value": false,
+                      "isOptional": true
+                    },
+                    {
+                      "name": "GalleryResourceType",
+                      "value": "microsoft.operationalinsights/workspaces",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "NotebookParams",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Location",
+                      "value": "[resourceGroup().location]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "1.0",
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/NotebookPinnedPart",
+                  "viewState": {
+                    "content": {
+                      "configurationId": "[Concat('/subscriptions/',parameters('subscriptionId'),'/resourcegroups/',parameters('resourceGroupName'),'/providers/microsoft.insights/workbooks/', parameters('workbookomsSolutionsForSubComponentsId'))]"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "metadata": {
+          "model": {
+            "timeRange": {
+              "value": {
+                "relative": {
+                  "duration": 24,
+                  "timeUnit": 1
+                }
+              },
+              "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+            }
+          }
+        }
+      },
+      "name": "HPEOneviewDashboard",
+      "type": "Microsoft.Portal/dashboards",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "hidden-title": "[concat(parameters('SolutionName'), '-' ,parameters('workspaceName'))]"
+      },
+      "apiVersion": "2015-08-01-preview"
     }
   ]
 }
